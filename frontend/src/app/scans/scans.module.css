@@ -1,0 +1,341 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0e14 0%, #1a1e24 100%);
+    padding: 40px 20px;
+    font-family: 'Courier New', monospace;
+    color: #00ff41;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.title {
+    font-size: 56px;
+    margin: 0 0 20px 0;
+}
+
+.glitch {
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+
+    0%,
+    90%,
+    100% {
+        text-shadow: 0 0 20px #00ff41;
+    }
+
+    93% {
+        text-shadow: -3px 0 #ff00de, 3px 0 #00ff41;
+    }
+}
+
+.subtitle {
+    color: #00ff4180;
+    font-size: 18px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.statsBar {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.statNumber {
+    display: block;
+    font-size: 48px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.statLabel {
+    color: #00ff4180;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.categoriesGrid {
+    max-width: 1400px;
+    margin: 0 auto 80px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 24px;
+}
+
+.categoryCard {
+    background: rgba(0, 255, 65, 0.05);
+    border: 2px solid #00ff4140;
+    border-radius: 8px;
+    padding: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.categoryCard:hover {
+    border-color: #00ff41;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+    transform: translateY(-5px);
+}
+
+.active {
+    border-color: #00ff41 !important;
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.4) !important;
+}
+
+.cardHeader {
+    margin-bottom: 20px;
+}
+
+.icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.categoryName {
+    font-size: 22px;
+    margin: 0 0 16px 0;
+    color: #00ff41;
+}
+
+.coverage {
+    margin: 16px 0;
+}
+
+.coverageBar {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 255, 65, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.coverageFill {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff41, #00aa2b);
+    transition: width 1s ease;
+}
+
+.coverageText {
+    font-size: 12px;
+    color: #00ff4180;
+}
+
+.description {
+    color: #00ff4180;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.testsList {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.testsList h4 {
+    color: #00ff41;
+    margin: 0 0 16px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.testsList ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.testsList li {
+    padding: 8px 0;
+    border-bottom: 1px solid #00ff4110;
+    color: #fff;
+    font-size: 14px;
+}
+
+.testsList li:last-child {
+    border-bottom: none;
+}
+
+.expandBtn {
+    width: 100%;
+    padding: 12px;
+    background: transparent;
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    transition: all 0.3s ease;
+}
+
+.expandBtn:hover {
+    background: rgba(0, 255, 65, 0.1);
+}
+
+.howSection {
+    max-width: 1400px;
+    margin: 0 auto 80px;
+    padding: 60px 40px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+}
+
+.sectionTitle {
+    text-align: center;
+    font-size: 42px;
+    margin: 0 0 60px 0;
+}
+
+.agentsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.agentCard {
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #00ff4120;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.agentCard:hover {
+    border-color: #00ff41;
+    transform: translateY(-3px);
+}
+
+.agentNumber {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ff41;
+    margin-bottom: 16px;
+}
+
+.agentCard h3 {
+    font-size: 18px;
+    margin: 0 0 12px 0;
+    color: #fff;
+}
+
+.agentCard p {
+    color: #00ff4180;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.cta {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 60px 40px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 2px solid #00ff41;
+    border-radius: 8px;
+}
+
+.cta h2 {
+    font-size: 36px;
+    margin: 0 0 16px 0;
+}
+
+.cta p {
+    color: #00ff4180;
+    margin: 0 0 32px 0;
+    font-size: 16px;
+}
+
+.ctaButtons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.primaryBtn {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, #00ff41, #00aa2b);
+    border: none;
+    color: #000;
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.primaryBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(0, 255, 65, 0.6);
+}
+
+.secondaryBtn {
+    padding: 16px 40px;
+    background: transparent;
+    border: 2px solid #00ff41;
+    color: #00ff41;
+    border-radius: 4px;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.secondaryBtn:hover {
+    background: rgba(0, 255, 65, 0.1);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+}
+
+@media (max-width: 768px) {
+    .categoriesGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .agentsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .ctaButtons {
+        flex-direction: column;
+    }
+
+    .title {
+        font-size: 36px;
+    }
+}

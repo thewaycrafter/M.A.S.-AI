@@ -1,0 +1,355 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0e14 0%, #1a1e24 100%);
+    padding: 40px 20px;
+    font-family: 'Courier New', monospace;
+    color: #00ff41;
+}
+
+.loading {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #00ff41;
+    font-size: 18px;
+}
+
+.header {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+}
+
+.userInfo {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00ff41, #00aa2b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    font-weight: bold;
+    color: #000;
+    border: 3px solid #00ff41;
+}
+
+.username {
+    font-size: 32px;
+    margin: 0 0 8px 0;
+    color: #00ff41;
+}
+
+.email {
+    color: #00ff4180;
+    margin: 0 0 16px 0;
+}
+
+.badges {
+    display: flex;
+    gap: 10px;
+}
+
+.badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.free {
+    background: rgba(128, 128, 128, 0.2);
+    border: 1px solid #808080;
+}
+
+.pro {
+    background: rgba(255, 165, 0, 0.2);
+    border: 1px solid #ffa500;
+    color: #ffa500;
+}
+
+.admin {
+    background: rgba(255, 0, 64, 0.2);
+    border: 1px solid #ff0040;
+    color: #ff0040;
+}
+
+.quickActions {
+    display: flex;
+    gap: 15px;
+}
+
+.actionBtn {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #00ff41, #00aa2b);
+    border: none;
+    border-radius: 4px;
+    color: #000;
+    font-family: inherit;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.actionBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 255, 65, 0.5);
+}
+
+.statsGrid {
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.statCard {
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.statCard:hover {
+    border-color: #00ff41;
+    box-shadow: 0 0 25px rgba(0, 255, 65, 0.3);
+    transform: translateY(-5px);
+}
+
+.statIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.statValue {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #fff;
+}
+
+.statLabel {
+    color: #00ff4180;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.statNote {
+    color: #00ff4160;
+    font-size: 11px;
+    margin-top: 8px;
+}
+
+.section {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 40px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+}
+
+.sectionTitle {
+    font-size: 28px;
+    margin: 0 0 30px 0;
+    text-align: center;
+}
+
+.glitch {
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+
+    0%,
+    90%,
+    100% {
+        text-shadow: 0 0 10px #00ff41;
+    }
+
+    93% {
+        text-shadow: -2px 0 #ff00de, 2px 0 #00ff41;
+    }
+}
+
+.vulnGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.vulnCard {
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+    border: 2px solid;
+}
+
+.critical {
+    border-color: #ff0040;
+    background: rgba(255, 0, 64, 0.1);
+}
+
+.high {
+    border-color: #ff6b00;
+    background: rgba(255, 107, 0, 0.1);
+}
+
+.medium {
+    border-color: #ffa500;
+    background: rgba(255, 165, 0, 0.1);
+}
+
+.low {
+    border-color: #00ff41;
+    background: rgba(0, 255, 65, 0.1);
+}
+
+.vulnCount {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.vulnLabel {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.infoGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.infoRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid #00ff4120;
+}
+
+.infoLabel {
+    color: #00ff4180;
+}
+
+.infoValue {
+    color: #fff;
+    font-weight: bold;
+}
+
+.active {
+    color: #00ff41 !important;
+}
+
+.activityList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.activityItem {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4120;
+    border-radius: 4px;
+}
+
+.activityIcon {
+    font-size: 32px;
+}
+
+.activityDetails {
+    flex: 1;
+}
+
+.activityTitle {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.activityTime {
+    font-size: 12px;
+    color: #00ff4180;
+}
+
+.viewBtn {
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid #00ff41;
+    color: #00ff41;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.viewBtn:hover {
+    background: rgba(0, 255, 65, 0.1);
+}
+
+.footer {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    text-align: center;
+}
+
+.logoutBtn {
+    padding: 14px 40px;
+    background: rgba(255, 0, 64, 0.1);
+    border: 1px solid #ff0040;
+    color: #ff0040;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.logoutBtn:hover {
+    background: rgba(255, 0, 64, 0.2);
+    box-shadow: 0 0 20px rgba(255, 0, 64, 0.3);
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .vulnGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .activityItem {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

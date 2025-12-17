@@ -1,0 +1,227 @@
+.container {
+    width: 100%;
+    padding: 20px;
+    background: #0a0e14;
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+}
+
+.header {
+    margin-bottom: 20px;
+}
+
+.header h2 {
+    color: #00ff41;
+    margin: 0 0 10px 0;
+    font-size: 24px;
+}
+
+.subtitle {
+    color: #00ff4180;
+    margin: 0;
+    font-size: 14px;
+}
+
+.vulnInfo {
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.vulnInfo h3 {
+    color: #fff;
+    margin: 0 0 15px 0;
+    font-size: 18px;
+}
+
+.tags {
+    display: flex;
+    gap: 10px;
+}
+
+.tag {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    background: rgba(0, 255, 65, 0.1);
+    color: #00ff41;
+    border: 1px solid #00ff4140;
+}
+
+.severity {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.severity[data-severity="critical"] {
+    background: #ff0040;
+    color: #fff;
+    border-color: #ff0040;
+}
+
+.severity[data-severity="high"] {
+    background: #ff6b00;
+    color: #fff;
+    border-color: #ff6b00;
+}
+
+.severity[data-severity="medium"] {
+    background: #ffaa00;
+    color: #000;
+    border-color: #ffaa00;
+}
+
+.severity[data-severity="low"] {
+    background: #ffd700;
+    color: #000;
+    border-color: #ffd700;
+}
+
+.timeline {
+    position: relative;
+}
+
+.step {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.stepHeader {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(0, 255, 65, 0.05);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stepHeader:hover {
+    background: rgba(0, 255, 65, 0.1);
+    border-color: #00ff4180;
+}
+
+.stepNumber {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #00ff41;
+    color: #0a0e14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.stepInfo {
+    flex: 1;
+}
+
+.stepInfo h4 {
+    color: #fff;
+    margin: 0 0 10px 0;
+    font-size: 16px;
+}
+
+.confidence {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #00ff41;
+}
+
+.confidenceBar {
+    flex: 1;
+    height: 8px;
+    background: rgba(0, 255, 65, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.confidenceValue {
+    height: 100%;
+    background: linear-gradient(90deg, #00ff41, #00aa2b);
+    transition: width 0.5s ease;
+}
+
+.expandIcon {
+    color: #00ff41;
+    font-size: 14px;
+    width: 20px;
+    text-align: center;
+}
+
+.stepContent {
+    margin-top: 15px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-left: 3px solid #00ff41;
+    margin-left: 55px;
+    border-radius: 4px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.finding {
+    color: #fff;
+    margin: 0 0 15px 0;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+.evidence h5 {
+    color: #00ff41;
+    margin: 0 0 10px 0;
+    font-size: 14px;
+}
+
+.evidence ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.evidence li {
+    color: #00ff4180;
+    margin: 8px 0;
+    font-size: 13px;
+}
+
+.connector {
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(180deg, #00ff41, transparent);
+    margin-left: 19px;
+}
+
+.footer {
+    margin-top: 30px;
+    padding: 15px;
+    background: rgba(0, 255, 65, 0.05);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.footer p {
+    color: #00ff4180;
+    margin: 0;
+    font-size: 12px;
+}

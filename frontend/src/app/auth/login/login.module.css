@@ -1,0 +1,392 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* Circuit Board Background */
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px),
+        linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    100% {
+        transform: translate(30px, 30px);
+    }
+}
+
+/* Scanline Effect */
+.container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom,
+            transparent 50%,
+            rgba(0, 255, 65, 0.05) 50%);
+    background-size: 100% 4px;
+    animation: scanline 8s linear infinite;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(100vh);
+    }
+}
+
+.formCard {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    background: rgba(10, 14, 20, 0.95);
+    border: 2px solid #00ff41;
+    box-shadow:
+        0 0 40px rgba(0, 255, 65, 0.3),
+        inset 0 0 60px rgba(0, 255, 65, 0.05);
+    padding: 50px 40px;
+    z-index: 2;
+    animation: breach 1s ease-out;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes breach {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) rotateX(20deg);
+        filter: blur(20px);
+    }
+
+    50% {
+        opacity: 0.5;
+        filter: blur(5px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1) rotateX(0);
+        filter: blur(0);
+    }
+}
+
+/* Corner Decorations */
+.formCard::before,
+.formCard::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #00ff41;
+}
+
+.formCard::before {
+    top: -2px;
+    left: -2px;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: -5px -5px 15px rgba(0, 255, 65, 0.4);
+}
+
+.formCard::after {
+    bottom: -2px;
+    right: -2px;
+    border-left: none;
+    border-top: none;
+    box-shadow: 5px 5px 15px rgba(0, 255, 65, 0.4);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.terminalPrompt {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #00ff41;
+    margin-bottom: 10px;
+    opacity: 0.7;
+    letter-spacing: 2px;
+}
+
+.title {
+    font-family: 'Courier New', monospace;
+    font-size: 36px;
+    font-weight: bold;
+    color: #00ff41;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    position: relative;
+    display: inline-block;
+    animation: glitchTitle 3s infinite;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.title:hover {
+    transform: scale(1.05);
+    text-shadow:
+        0 0 30px #00ff41,
+        0 0 60px #00ff41;
+}
+
+@keyframes glitchTitle {
+
+    0%,
+    90%,
+    100% {
+        text-shadow:
+            0 0 20px #00ff41,
+            0 0 40px #00ff41,
+            2px 2px 0 #00ff41;
+    }
+
+    92% {
+        text-shadow:
+            -5px 0 #ff00de,
+            5px 0 #00ffe1,
+            0 0 40px #00ff41;
+        transform: skew(-2deg);
+    }
+
+    94% {
+        text-shadow:
+            5px 0 #ff00de,
+            -5px 0 #00ffe1,
+            0 0 40px #00ff41;
+        transform: skew(2deg);
+    }
+}
+
+.subtitle {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: rgba(0, 255, 65, 0.6);
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.subtitle::before {
+    content: '> ';
+    color: #00ff41;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.formGroup {
+    position: relative;
+}
+
+.label {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    color: #00ff41;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.label::before {
+    content: '$ ';
+    color: #00ff41;
+    font-weight: bold;
+}
+
+.inputWrapper {
+    position: relative;
+}
+
+.input {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 15px;
+    color: #00ff41;
+    background: rgba(0, 0, 0, 0.6);
+    border: 2px solid rgba(0, 255, 65, 0.3);
+    outline: none;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+.input::placeholder {
+    color: rgba(0, 255, 65, 0.3);
+    letter-spacing: 1px;
+}
+
+.input:focus {
+    border-color: #00ff41;
+    box-shadow:
+        0 0 20px rgba(0, 255, 65, 0.5),
+        inset 0 0 20px rgba(0, 255, 65, 0.1);
+    animation: focusGlitch 0.3s;
+}
+
+@keyframes focusGlitch {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    75% {
+        transform: translateX(2px);
+    }
+}
+
+.error {
+    margin-top: 8px;
+    padding: 10px 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #ff0040;
+    background: rgba(255, 0, 64, 0.1);
+    border: 1px solid #ff0040;
+    border-left: 4px solid #ff0040;
+    animation: errorShake 0.5s;
+}
+
+.error::before {
+    content: '[ERROR] ';
+    font-weight: bold;
+}
+
+@keyframes errorShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-10px);
+    }
+
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+.submitBtn {
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    font-weight: bold;
+    color: #000;
+    background: linear-gradient(135deg, #00ff41 0%, #00d936 100%);
+    border: 2px solid #00ff41;
+    cursor: pointer;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+}
+
+.submitBtn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.submitBtn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.submitBtn:hover {
+    box-shadow:
+        0 0 30px rgba(0, 255, 65, 0.6),
+        0 0 60px rgba(0, 255, 65, 0.4);
+    transform: translateY(-2px);
+}
+
+.submitBtn:active {
+    transform: translateY(0);
+}
+
+.submitBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.footer {
+    margin-top: 30px;
+    text-align: center;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    color: rgba(0, 255, 65, 0.6);
+}
+
+.link {
+    color: #00ff41;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.link:hover {
+    border-bottom-color: #00ff41;
+    text-shadow: 0 0 10px #00ff41;
+}
+
+@media (max-width: 600px) {
+    .formCard {
+        padding: 40px 24px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .subtitle {
+        font-size: 11px;
+    }
+}

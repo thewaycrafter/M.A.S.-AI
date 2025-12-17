@@ -1,0 +1,322 @@
+.consoleWrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--color-terminal-surface);
+    border: 1px solid var(--color-matrix-500);
+    border-radius: var(--border-radius);
+    box-shadow: var(--glow-md), inset 0 0 40px rgba(0, 255, 0, 0.05);
+    overflow: hidden;
+    position: relative;
+}
+
+.consoleWrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--color-matrix-500) 20%,
+            var(--color-cyber-500) 50%,
+            var(--color-matrix-500) 80%,
+            transparent);
+    animation: scanline 3s linear infinite;
+    z-index: 10;
+    opacity: 0.7;
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(500px);
+    }
+}
+
+.consoleHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacing-md);
+    background: var(--color-terminal-elevated);
+    border-bottom: 1px solid var(--color-matrix-500);
+    box-shadow: 0 1px 0 rgba(0, 255, 0, 0.2);
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.terminalIcon {
+    font-family: var(--font-terminal);
+    color: var(--color-cyber-500);
+    font-size: var(--text-lg);
+    text-shadow: var(--glow-cyan-md);
+}
+
+.headerTitle {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: var(--font-bold);
+    color: var(--color-matrix-500);
+    letter-spacing: 0.1em;
+    text-shadow: var(--glow-sm);
+}
+
+.statusBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 3px;
+    font-family: 'Roboto Mono', monospace;
+}
+
+.statusLive {
+    background: rgba(0, 255, 0, 0.1);
+    color: var(--matrix-green);
+    border: 1px solid var(--matrix-green);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 4px rgba(255, 0, 85, 0.4);
+        opacity: 1;
+    }
+
+    50% {
+        box-shadow: 0 0 12px rgba(255, 0, 85, 0.8);
+        opacity: 0.8;
+    }
+}
+
+.statusPaused {
+    color: var(--color-gray-400);
+    border-color: var(--color-gray-600);
+    background: rgba(106, 116, 136, 0.1);
+}
+
+.headerRight {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.controlBtn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--color-matrix-700);
+    border-radius: var(--border-radius);
+    color: var(--color-matrix-500);
+    font-size: var(--text-base);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.controlBtn:hover {
+    border-color: var(--color-matrix-500);
+    background: rgba(0, 255, 0, 0.1);
+    box-shadow: var(--glow-sm);
+}
+
+.consoleBody {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--spacing-md);
+    font-family: var(--font-terminal);
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    background: var(--color-terminal-bg);
+}
+
+.emptyState {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    color: var(--color-gray-500);
+    font-style: italic;
+}
+
+.logEntry {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+    padding: var(--spacing-xs) 0;
+    animation: slideIn 0.3s ease-out;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.logTimestamp {
+    color: var(--color-gray-500);
+    flex-shrink: 0;
+    min-width: 90px;
+}
+
+.logAgent {
+    color: var(--color-cyan);
+    font-weight: var(--font-semibold);
+    flex-shrink: 0;
+    min-width: 140px;
+    text-shadow: var(--glow-cyan-sm);
+}
+
+.logMessage {
+    color: var(--color-matrix-500);
+    flex: 1;
+}
+
+/* Log level colors */
+.logInfo .logMessage {
+    color: var(--color-matrix-500);
+}
+
+.logSuccess .logMessage {
+    color: var(--color-matrix-500);
+    text-shadow: var(--glow-sm);
+}
+
+.logSuccess::before {
+    content: '✓';
+    color: var(--color-matrix-500);
+    margin-right: var(--spacing-xs);
+}
+
+.logWarning .logMessage {
+    color: var(--color-warning-500);
+}
+
+.logWarning::before {
+    content: '⚠';
+    color: var(--color-warning-500);
+    margin-right: var(--spacing-xs);
+}
+
+.logError .logMessage {
+    color: var(--color-danger-500);
+    font-weight: var(--font-semibold);
+    text-shadow: var(--glow-red-md);
+}
+
+.logError::before {
+    content: '✗';
+    color: var(--color-danger-500);
+    margin-right: var(--spacing-xs);
+}
+
+.logAttack .logMessage {
+    color: var(--color-cyber-500);
+    text-shadow: var(--glow-cyan-sm);
+}
+
+.logAttack::before {
+    content: '►';
+    color: var(--color-cyber-500);
+    margin-right: var(--spacing-xs);
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0.3;
+    }
+}
+
+.liveCursor {
+    display: flex;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background: var(--color-matrix-500);
+    box-shadow: var(--glow-sm);
+    animation: cursorBlink 1s infinite;
+}
+
+@keyframes cursorBlink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}
+
+.consoleFooter {
+    display: flex;
+    justify-content: space-between;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-terminal-elevated);
+    border-top: 1px solid var(--color-matrix-700);
+    font-family: var(--font-terminal);
+    font-size: var(--text-xs);
+    color: var(--color-gray-500);
+}
+
+.footerText {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+/* Scrollbar for console */
+.consoleBody::-webkit-scrollbar {
+    width: 6px;
+}
+
+.consoleBody::-webkit-scrollbar-track {
+    background: var(--color-terminal-bg);
+}
+
+.consoleBody::-webkit-scrollbar-thumb {
+    background: var(--color-matrix-800);
+    border: 1px solid var(--color-matrix-700);
+}
+
+.consoleBody::-webkit-scrollbar-thumb:hover {
+    background: var(--color-matrix-700);
+    box-shadow: var(--glow-sm);
+}

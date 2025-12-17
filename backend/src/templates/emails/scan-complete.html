@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Complete</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            color: #e2e8f0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+
+        .header {
+            background: #0f172a;
+            padding: 30px;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 1px;
+        }
+
+        .scan-id {
+            font-size: 12px;
+            color: #64748b;
+            font-family: monospace;
+            background: #1e293b;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .hero {
+            padding: 40px 30px;
+            text-align: center;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+        }
+
+        .score-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+
+            border: 8px solid {
+                    {
+                    riskColorClass
+                }
+            }
+
+            ;
+            /* Dynamic color */
+            margin: 0 auto 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            background: #1e293b;
+        }
+
+        .score-val {
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .target-name {
+            font-size: 18px;
+            color: #cbd5e1;
+            margin-bottom: 5px;
+        }
+
+        .target-url {
+            color: #38bdf8;
+            font-weight: 600;
+            font-size: 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 30px 30px;
+        }
+
+        .stat-card {
+            background: #334155;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #475569;
+        }
+
+        .stat-num {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stat-title {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Color utils */
+        .color-critical {
+            color: #f43f5e;
+        }
+
+        /* Rose 500 */
+        .color-high {
+            color: #f97316;
+        }
+
+        /* Orange 500 */
+        .color-medium {
+            color: #f59e0b;
+        }
+
+        /* Amber 500 */
+        .color-low {
+            color: #10b981;
+        }
+
+        /* Emerald 500 */
+
+        .action-area {
+            padding: 30px;
+            text-align: center;
+            background: #1e293b;
+            border-top: 1px solid #334155;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #fff;
+            color: #0f172a;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #f1f5f9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            background: #0f172a;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="brand">AEGIS AI</div>
+            <div class="scan-id">#{{scanId}}</div>
+        </div>
+
+        <div class="hero">
+            <div class="target-name">Security Scan Report for</div>
+            <div class="target-url">{{target}}</div>
+
+            <div style="height: 30px;"></div>
+
+            <div class="score-circle" style="border-color: {{riskColorClass}}">
+                <div class="score-val">{{riskScore}}</div>
+                <div class="score-label">Risk Level</div>
+            </div>
+
+            <p style="color: #94a3b8; max-width: 400px; margin: 0 auto; font-size: 14px;">
+                Our AI agents have completed the comprehensive analysis. Below is a summary of the findings.
+            </p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-num color-critical">{{criticalCount}}</div>
+                <div class="stat-title">Critical Issues</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num color-high">{{highCount}}</div>
+                <div class="stat-title">High Priority</div>
+            </div>
+        </div>
+
+        <div class="action-area">
+            <p style="margin-bottom: 20px; color: #cbd5e1;">Detailed logs, remediation steps, and PDF reports are ready.
+            </p>
+            <a href="http://localhost:3000/history" class="btn">View Full Report</a>
+        </div>
+
+        <div class="footer">
+            <p>You received this email because you enabled scan notifications.</p>
+            <p>&copy; 2025 Aegis AI security systems.</p>
+        </div>
+    </div>
+</body>
+
+</html>

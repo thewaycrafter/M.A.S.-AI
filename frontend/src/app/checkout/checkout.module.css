@@ -1,0 +1,130 @@
+.container {
+    min-height: 100vh;
+    background-color: #0a0a0a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ff00;
+}
+
+.card {
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.planPreview {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+}
+
+.planName {
+    font-size: 18px;
+    color: #fff;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.planPrice {
+    color: #00ff00;
+    font-weight: bold;
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0 0 0;
+    color: #888;
+    font-size: 14px;
+}
+
+.features li {
+    margin-bottom: 5px;
+}
+
+.features li::before {
+    content: '> ';
+    color: #00ff00;
+}
+
+.payBtn {
+    width: 100%;
+    padding: 15px;
+    background: #00ff00;
+    color: #000;
+    border: none;
+    font-weight: bold;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.payBtn:hover {
+    background: #00cc00;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+}
+
+.payBtn:disabled {
+    background: #333;
+    color: #666;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.error {
+    color: #ff3333;
+    text-align: center;
+    margin-top: 15px;
+    font-size: 12px;
+    background: rgba(255, 51, 51, 0.1);
+    padding: 10px;
+    border: 1px solid #ff3333;
+}
+
+.backLink {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.backLink:hover {
+    color: #00ff00;
+}

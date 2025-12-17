@@ -1,0 +1,181 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: #e0e0e0;
+}
+
+.header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    padding-bottom: 1rem;
+}
+
+.title {
+    font-family: 'Courier New', monospace;
+    color: #00ff41;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.subtitle {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.card {
+    background: rgba(10, 14, 20, 0.8);
+    border: 1px solid rgba(0, 255, 65, 0.2);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.05);
+}
+
+.tableHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.search {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+    color: #00ff41;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    width: 300px;
+}
+
+.search:focus {
+    outline: none;
+    border-color: #00ff41;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th {
+    text-align: left;
+    padding: 1rem;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+    color: #888;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.userRow:hover {
+    background: rgba(0, 255, 65, 0.05);
+}
+
+.badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.badge.admin {
+    background: rgba(255, 215, 0, 0.1);
+    color: #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.3);
+}
+
+.badge.pro {
+    background: rgba(0, 191, 255, 0.1);
+    color: #00bfff;
+    border: 1px solid rgba(0, 191, 255, 0.3);
+}
+
+.badge.free {
+    background: rgba(136, 136, 136, 0.1);
+    color: #888;
+    border: 1px solid rgba(136, 136, 136, 0.3);
+}
+
+.actionBtn {
+    background: transparent;
+    border: 1px solid #333;
+    color: #ccc;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+    margin-right: 0.5rem;
+}
+
+.actionBtn:hover {
+    border-color: #00ff41;
+    color: #00ff41;
+}
+
+.select {
+    background: #0a0e14;
+    border: 1px solid #333;
+    color: #ccc;
+    padding: 0.3rem;
+    border-radius: 4px;
+}
+
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: #00ff41;
+    font-family: 'Courier New', monospace;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.5;
+    }
+}
+
+.codeBlock {
+    background: #000;
+    padding: 1rem;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    color: #00ff41;
+    overflow-x: auto;
+    border: 1px solid #333;
+}
+
+.logEntry {
+    padding: 1rem;
+    border-bottom: 1px solid #222;
+}
+
+.logMeta {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}

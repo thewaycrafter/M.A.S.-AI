@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Aegis AI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0f172a;
+            /* Slate 900 */
+            color: #e2e8f0;
+            /* Slate 200 */
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #1e293b;
+            /* Slate 800 */
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid #334155;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 2px;
+            margin: 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        h1 {
+            color: #f8fafc;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .highlight {
+            color: #38bdf8;
+            /* Sky 400 */
+            font-weight: 600;
+        }
+
+        .features-box {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            border: 1px solid #334155;
+        }
+
+        .feature-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #334155;
+            padding-bottom: 10px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            color: #e2e8f0;
+        }
+
+        .check {
+            color: #4ade80;
+            /* Green 400 */
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #00C6FF 0%, #0072FF 100%);
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: #0f172a;
+            padding: 20px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+            border-top: 1px solid #334155;
+        }
+
+        .social-links {
+            margin-bottom: 10px;
+        }
+
+        .social-link {
+            color: #94a3b8;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">AEGIS AI</div>
+            <div class="subtitle">The Future of Cybersecurity</div>
+        </div>
+
+        <div class="content">
+            <h1>Welcome to the family, <span class="highlight">{{username}}</span>! 🚀</h1>
+
+            <p>We are absolutely thrilled to have you onboard. You've just taken a massive step towards securing your
+                digital assets with the power of Artificial Intelligence.</p>
+
+            <p>At Aegis, we believe security should be <strong>smart, simple, and accessible</strong>. Whether you're a
+                developer, a startup, or an enterprise, we've got your back.</p>
+
+            <div class="features-box">
+                <div class="feature-title">You now have access to:</div>
+
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <div>
+                        <strong>AI-Powered Recon</strong><br>
+                        <span style="font-size: 12px; color: #94a3b8;">Automated asset discovery and analysis</span>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <div>
+                        <strong>Smart Vulnerability Scanning</strong><br>
+                        <span style="font-size: 12px; color: #94a3b8;">Detect SQLi, XSS, Misconfigs & more</span>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <span class="check">✓</span>
+                    <div>
+                        <strong>Interactive Dashboard</strong><br>
+                        <span style="font-size: 12px; color: #94a3b8;">Real-time threats and analytics</span>
+                    </div>
+                </div>
+            </div>
+
+            <p style="text-align: center;">Ready to launch your first scan?</p>
+
+            <div class="btn-container">
+                <a href="http://localhost:3000/dashboard" class="btn">Go to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="social-links">
+                <a href="#" class="social-link">Twitter</a> •
+                <a href="#" class="social-link">LinkedIn</a> •
+                <a href="#" class="social-link">Support</a>
+            </div>
+            <p>&copy; 2025 Aegis AI Inc. All rights reserved.<br>
+                Secure everything, everywhere.</p>
+        </div>
+    </div>
+</body>
+
+</html>

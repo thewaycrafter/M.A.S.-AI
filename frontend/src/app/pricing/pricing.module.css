@@ -1,0 +1,291 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0e14 0%, #1a1e24 100%);
+    padding: 60px 20px;
+    font-family: 'Courier New', monospace;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.title {
+    font-size: 48px;
+    margin: 0 0 20px 0;
+}
+
+.glitch {
+    color: #00ff41;
+    position: relative;
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+
+    0%,
+    90%,
+    100% {
+        text-shadow: 0 0 20px #00ff41;
+    }
+
+    93% {
+        text-shadow: -2px 0 #ff00de, 2px 0 #00ff41;
+        transform: translateX(2px);
+    }
+
+    96% {
+        text-shadow: 2px 0 #ff00de, -2px 0 #00ff41;
+        transform: translateX(-2px);
+    }
+}
+
+.subtitle {
+    color: #00ff4180;
+    font-size: 18px;
+    margin: 0;
+}
+
+.pricingGrid {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 80px;
+}
+
+.pricingCard {
+    background: rgba(10, 14, 20, 0.9);
+    border: 2px solid #00ff4140;
+    border-radius: 8px;
+    padding: 40px 30px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.pricingCard:hover {
+    border-color: #00ff41;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.3);
+    transform: translateY(-5px);
+}
+
+.popular {
+    border-color: #00ff41;
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.4);
+}
+
+.popularBadge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #00ff41, #00aa2b);
+    color: #000;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.cardHeader {
+    text-align: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #00ff4120;
+    margin-bottom: 30px;
+}
+
+.tierName {
+    color: #00ff41;
+    font-size: 32px;
+    margin: 0 0 20px 0;
+    text-transform: uppercase;
+}
+
+.price {
+    margin: 20px 0;
+}
+
+.currency {
+    color: #00ff4180;
+    font-size: 24px;
+    vertical-align: top;
+}
+
+.amount {
+    color: #fff;
+    font-size: 56px;
+    font-weight: bold;
+    letter-spacing: -2px;
+}
+
+.period {
+    color: #00ff4180;
+    font-size: 16px;
+}
+
+.tierDesc {
+    color: #00ff4180;
+    font-size: 14px;
+    margin: 0;
+}
+
+.features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 30px 0;
+}
+
+.feature {
+    color: #fff;
+    font-size: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #00ff4110;
+    display: flex;
+    align-items: center;
+}
+
+.feature:first-child {
+    border-top: 1px solid #00ff4110;
+}
+
+.upgradeBtn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #00ff41, #00aa2b);
+    border: none;
+    border-radius: 4px;
+    color: #000;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.upgradeBtn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 255, 65, 0.5);
+}
+
+.upgradeBtn:disabled {
+    background: rgba(0, 255, 65, 0.2);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.current {
+    background: rgba(0, 255, 65, 0.2) !important;
+    border: 2px solid #00ff41;
+    color: #00ff41 !important;
+}
+
+.popularBtn {
+    background: linear-gradient(135deg, #00ff41, #00aa2b);
+    box-shadow: 0 5px 20px rgba(0, 255, 65, 0.4);
+}
+
+.costInfo {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #00ff4120;
+    text-align: center;
+}
+
+.costInfo p {
+    color: #00ff4180;
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.comparisonSection {
+    max-width: 1400px;
+    margin: 0 auto 60px;
+    padding: 40px;
+    background: rgba(10, 14, 20, 0.9);
+    border: 1px solid #00ff4140;
+    border-radius: 8px;
+}
+
+.comparisonTitle {
+    color: #00ff41;
+    text-align: center;
+    margin: 0 0 40px 0;
+    font-size: 32px;
+}
+
+.comparisonTable {
+    overflow-x: auto;
+}
+
+.comparisonTable table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.comparisonTable th,
+.comparisonTable td {
+    padding: 16px;
+    text-align: center;
+    border: 1px solid #00ff4120;
+    color: #fff;
+}
+
+.comparisonTable th {
+    background: rgba(0, 255, 65, 0.1);
+    color: #00ff41;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.comparisonTable tbody tr:hover {
+    background: rgba(0, 255, 65, 0.05);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 60px;
+}
+
+.backBtn {
+    padding: 14px 32px;
+    background: rgba(0, 255, 65, 0.1);
+    border: 1px solid #00ff41;
+    border-radius: 4px;
+    color: #00ff41;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.backBtn:hover {
+    background: rgba(0, 255, 65, 0.2);
+    box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+}
+
+@media (max-width: 768px) {
+    .pricingGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .title {
+        font-size: 32px;
+    }
+
+    .amount {
+        font-size: 42px;
+    }
+
+    .comparisonTable {
+        font-size: 12px;
+    }
+
+    .comparisonTable th,
+    .comparisonTable td {
+        padding: 10px;
+    }
+}
