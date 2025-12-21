@@ -22,9 +22,9 @@ const testDirectEmail = async () => {
 
         console.log('Sending test email...');
         const result = await transporter.sendMail({
-            from: '"Singhal AI" <aegisaitool@gmail.com>',
+            from: '"M.A.S. AI" <aegisaitool@gmail.com>',
             to: 'aegisaitool@gmail.com',
-            subject: 'Singhal AI Test Email',
+            subject: 'M.A.S. AI Test Email',
             html: '<h1>Test Email</h1><p>Your email configuration is working!</p>',
         });
 

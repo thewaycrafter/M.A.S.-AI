@@ -74,7 +74,7 @@ router.post('/request', requireAuth, async (req: any, res) => {
 
         await sendEmail({
             to: approverEmail,
-            subject: `[Singhal AI] Authorization Request for ${target}`,
+            subject: `[M.A.S. AI] Authorization Request for ${target}`,
             html: `<div style="font-family:Arial,sans-serif;background:#1a1a2e;color:#fff;padding:30px;border-radius:10px;"><h1 style="color:#00ff41;">SINGHAL AI</h1><h2 style="color:#00e5a0;">Authorization Request</h2><p>A user has requested authorization to perform security testing on: <strong>${target}</strong></p><p>Requested by: ${req.user.email}</p><p>Dates: ${new Date(startDate).toLocaleDateString()} - ${new Date(endDate).toLocaleDateString()}</p><p style="margin:30px 0;"><a href="${approvalUrl}" style="background:#00ff41;color:#000;padding:15px 30px;text-decoration:none;border-radius:5px;font-weight:bold;">REVIEW REQUEST</a></p></div>`,
         });
 
@@ -250,7 +250,7 @@ router.post('/admin-approve/:id', requireAuth, requireAdmin, async (req: any, re
         // Notify requester
         await sendEmail({
             to: (authorization as any).requesterEmail,
-            subject: `[Singhal AI] Authorization Approved: ${(authorization as any).target}`,
+            subject: `[M.A.S. AI] Authorization Approved: ${(authorization as any).target}`,
             html: `<div style="font-family:Arial,sans-serif;background:#1a1a2e;color:#fff;padding:30px;border-radius:10px;"><h1 style="color:#00ff41;">SINGHAL AI</h1><h2 style="color:#00ff41;">Authorization Approved</h2><p>Your authorization request for <strong>${(authorization as any).target}</strong> has been fully approved!</p><p>You can now perform security scans on this target.</p></div>`,
         });
 

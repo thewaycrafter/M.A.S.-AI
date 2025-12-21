@@ -8,7 +8,7 @@ dotenv.config({ path: '../.env' });
 const listUsers = async () => {
     try {
         await mongoose.connect(process.env.MONGODB_URI as string, {
-            dbName: process.env.MONGODB_DATABASE || 'singhal-ai'
+            dbName: process.env.MONGODB_DATABASE || 'mas-ai'
         });
         console.log('🔌 Connected to MongoDB');
 

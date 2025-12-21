@@ -135,7 +135,7 @@ export default function PricingPage() {
                         <button
                             className={`${styles.upgradeBtn} ${user?.role === 'admin' ? styles.current : ''}`}
                             disabled={user?.role === 'admin'}
-                            onClick={() => window.location.href = 'mailto:sales@singhal-ai.com'}
+                            onClick={() => window.location.href = 'mailto:sales@mas-ai.com'}
                         >
                             {user?.role === 'admin' ? 'Current Plan' : 'Contact Sales'}
                         </button>

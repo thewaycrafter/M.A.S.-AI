@@ -97,7 +97,7 @@ const createEmailTemplate = (title: string, content: string, ctaButton?: { text:
                                             AI-Powered Penetration Testing Platform
                                         </p>
                                         <p style="margin: 0; color: #4b5563; font-size: 11px;">
-                                            © ${new Date().getFullYear()} Singhal AI. All rights reserved.
+                                            © ${new Date().getFullYear()} M.A.S. AI. All rights reserved.
                                         </p>
                                     </td>
                                 </tr>
@@ -123,7 +123,7 @@ export const sendEmail = async ({ to, subject, html, text }: EmailOptions) => {
         }
 
         const info = await transporter.sendMail({
-            from: `"${process.env.EMAIL_FROM_NAME || 'Singhal AI'}" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
+            from: `"${process.env.EMAIL_FROM_NAME || 'M.A.S. AI'}" <${process.env.EMAIL_FROM || process.env.EMAIL_USER}>`,
             to,
             subject,
             html,
@@ -141,7 +141,7 @@ export const sendEmail = async ({ to, subject, html, text }: EmailOptions) => {
 export const sendWelcomeEmail = async (email: string, username: string) => {
     const content = `
         <p>Hello <strong style="color: #00ff41;">${username}</strong>,</p>
-        <p>Welcome to Singhal AI – your advanced AI-powered security testing platform. We're excited to have you on board!</p>
+        <p>Welcome to M.A.S. AI – your advanced AI-powered security testing platform. We're excited to have you on board!</p>
         <div style="background: rgba(0, 255, 65, 0.1); border-left: 4px solid #00ff41; padding: 15px 20px; margin: 25px 0; border-radius: 0 8px 8px 0;">
             <p style="margin: 0; color: #00e5a0; font-weight: 600;">🛡️ What you can do:</p>
             <ul style="margin: 10px 0 0; padding-left: 20px; color: #d1d5db;">
@@ -157,14 +157,14 @@ export const sendWelcomeEmail = async (email: string, username: string) => {
         </p>
     `;
 
-    const html = createEmailTemplate('Welcome to Singhal AI', content, {
+    const html = createEmailTemplate('Welcome to M.A.S. AI', content, {
         text: 'Access Dashboard',
         url: `${process.env.FRONTEND_URL || 'http://localhost:3000'}/dashboard`
     });
 
     await sendEmail({
         to: email,
-        subject: '🛡️ Welcome to Singhal AI - Your Security Journey Begins',
+        subject: '🛡️ Welcome to M.A.S. AI - Your Security Journey Begins',
         html,
     });
 };
@@ -272,7 +272,7 @@ export const sendAuthorizationRequestEmail = async (
 
     await sendEmail({
         to: approverEmail,
-        subject: `🔐 [Singhal AI] Authorization Request for ${target}`,
+        subject: `🔐 [M.A.S. AI] Authorization Request for ${target}`,
         html,
     });
 };
@@ -280,7 +280,7 @@ export const sendAuthorizationRequestEmail = async (
 // Password reset email
 export const sendPasswordResetEmail = async (email: string, resetUrl: string) => {
     const content = `
-        <p>We received a request to reset your password for your Singhal AI account.</p>
+        <p>We received a request to reset your password for your M.A.S. AI account.</p>
         
         <p>Click the button below to set a new password. This link will expire in <strong>1 hour</strong>.</p>
         
@@ -302,7 +302,7 @@ export const sendPasswordResetEmail = async (email: string, resetUrl: string) =>
 
     await sendEmail({
         to: email,
-        subject: '🔑 [Singhal AI] Password Reset Request',
+        subject: '🔑 [M.A.S. AI] Password Reset Request',
         html,
     });
 };

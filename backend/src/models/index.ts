@@ -1,4 +1,4 @@
-// Central export for all Singhal AI models
+// Central export for all M.A.S. AI models
 export { User } from './User';
 export { ScanHistory } from './ScanHistory';
 export { ScanResult } from './ScanResult';

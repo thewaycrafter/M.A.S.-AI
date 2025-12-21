@@ -44,11 +44,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Root endpoint
 app.get('/', (req: Request, res: Response) => {
     res.json({
-        name: 'Singhal AI API',
+        name: 'M.A.S. AI API',
         version: '1.0.0',
         status: 'online',
         tagline: 'Defensive-First AI Penetration Testing Engine',
-        message: 'Welcome to Singhal AI. Use /api for endpoints, /health for status.',
+        message: 'Welcome to M.A.S. AI. Use /api for endpoints, /health for status.',
         ascii: `
 ╔═══════════════════════════════════════════════════════════╗
 ║                     SINGHAL AI                            ║
@@ -87,7 +87,7 @@ app.get('/health', (req: Request, res: Response) => {
 // API status endpoint
 app.get('/api/status', (req: Request, res: Response) => {
     res.json({
-        name: 'Singhal AI API',
+        name: 'M.A.S. AI API',
         version: '1.0.0',
         description: 'Defensive-First AI Penetration Testing Engine',
         status: 'operational',
@@ -123,7 +123,7 @@ app.use('/api/admin', adminRouter);
 // API documentation endpoint
 app.get('/api', (req: Request, res: Response) => {
     res.json({
-        message: 'Singhal AI API v1.0.0',
+        message: 'M.A.S. AI API v1.0.0',
         endpoints: {
             health: '/health',
             status: '/api/status',

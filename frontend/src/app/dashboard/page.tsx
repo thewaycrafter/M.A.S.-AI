@@ -300,7 +300,7 @@ export default function Dashboard() {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `singhal-ai-report-${Date.now()}.pdf`;
+            link.download = `mas-ai-report-${Date.now()}.pdf`;
             link.click();
             URL.revokeObjectURL(url);
 
@@ -395,7 +395,7 @@ export default function Dashboard() {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `singhal-ai-scan-${Date.now()}.json`;
+            link.download = `mas-ai-scan-${Date.now()}.json`;
             link.click();
             URL.revokeObjectURL(url);
         } catch (error) {

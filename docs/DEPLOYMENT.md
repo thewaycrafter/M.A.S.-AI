@@ -1,4 +1,4 @@
-# Aegis AI - Deployment Guide
+# M.A.S. AI - Deployment Guide
 
 ## 🚀 Deployment Options
 
@@ -13,8 +13,8 @@
 
 ```bash
 # Clone repository
-git clone https://github.com/your-org/aegis-ai.git
-cd aegis-ai
+git clone https://github.com/your-org/mas-ai.git
+cd mas-ai
 
 # Set environment variables
 cp .env.example .env
@@ -96,7 +96,7 @@ volumes:
 
 **1. Create Namespace**
 ```bash
-kubectl create namespace aegis-ai
+kubectl create namespace mas-ai
 ```
 
 **2. Create Secrets**
@@ -104,7 +104,7 @@ kubectl create namespace aegis-ai
 kubectl create secret generic aegis-secrets \
   --from-literal=openai-api-key=$OPENAI_API_KEY \
   --from-literal=postgres-password=$POSTGRES_PASSWORD \
-  -n aegis-ai
+  -n mas-ai
 ```
 
 **3. Deploy Database StatefulSets**
@@ -115,7 +115,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: mongodb
-  namespace: aegis-ai
+  namespace: mas-ai
 spec:
   serviceName: mongodb
   replicas: 1
@@ -153,7 +153,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: aegis-backend
-  namespace: aegis-ai
+  namespace: mas-ai
 spec:
   replicas: 3
   selector:
@@ -166,7 +166,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: aegis-ai/backend:latest
+        image: mas-ai/backend:latest
         ports:
         - containerPort: 3001
         env:
@@ -194,7 +194,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: aegis-frontend
-  namespace: aegis-ai
+  namespace: mas-ai
 spec:
   type: LoadBalancer
   ports:
@@ -207,7 +207,7 @@ spec:
 **6. Apply All**
 ```bash
 kubectl apply -f k8s/
-kubectl get pods -n aegis-ai
+kubectl get pods -n mas-ai
 ```
 
 ---
@@ -304,7 +304,7 @@ docker-compose exec backend npm run db:check
 docker-compose logs -f backend
 
 # Kubernetes logs
-kubectl logs -f -l app=aegis-backend -n aegis-ai
+kubectl logs -f -l app=aegis-backend -n mas-ai
 
 # Export audit logs
 curl http://localhost:3001/api/audit/export

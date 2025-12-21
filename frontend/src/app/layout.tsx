@@ -3,7 +3,7 @@ import "../styles/design-system.css";
 import "../styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Singhal AI - Defensive-First AI Penetration Testing Engine",
+  title: "M.A.S. AI - Defensive-First AI Penetration Testing Engine",
   description: "Enterprise-grade AI-powered security engine for authorized penetration testing and vulnerability assessment.",
   keywords: ["security", "penetration testing", "AI", "vulnerability scanning", "cybersecurity"],
 };

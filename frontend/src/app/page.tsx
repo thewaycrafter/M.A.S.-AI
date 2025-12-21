@@ -23,7 +23,7 @@ export default function Home() {
         {/* Hero Section */}
         <header className={styles.hero}>
           <div className={styles.logoSection}>
-            <Image src="/logo.png" alt="Singhal AI Logo" width={80} height={80} className={styles.logo} />
+            <Image src="/logo.png" alt="M.A.S. AI Logo" width={80} height={80} className={styles.logo} />
             <h1 className={styles.title}>
               <span className={styles.glitch} data-text="SINGHAL AI">SINGHAL AI</span>
             </h1>
@@ -203,7 +203,7 @@ export default function Home() {
           </div>
 
           <div className={styles.footerBottom}>
-            <p>© ${new Date().getFullYear()} Singhal AI. All rights reserved.</p>
+            <p>© ${new Date().getFullYear()} M.A.S. AI. All rights reserved.</p>
           </div>
         </footer>
       </div>

@@ -1,4 +1,4 @@
-# Aegis AI - User Manual
+# M.A.S. AI - User Manual
 
 ## 📖 Table of Contents
 1. [Getting Started](#getting-started)
@@ -15,10 +15,10 @@
 ### Accessing the Application
 1. Open your web browser
 2. Navigate to `http://localhost:3000`
-3. You'll see the Aegis AI homepage
+3. You'll see the M.A.S. AI homepage
 
 ### System Overview
-Aegis AI is an enterprise-grade AI-powered penetration testing platform that:
+M.A.S. AI is an enterprise-grade AI-powered penetration testing platform that:
 - Scans web applications for 200+ vulnerability types
 - Uses 7 AI agents + 10 specialized scanners
 - Provides real-time attack visualization
@@ -243,9 +243,9 @@ To clear all scan data:
 ## 🆘 Support
 
 **Issues or Questions?**
-- GitHub Issues: [your-repo/issues](https://github.com/your-org/aegis-ai/issues)
-- Email: support@aegis-ai.com
-- Documentation: [docs.aegis-ai.com](https://docs.aegis-ai.com)
+- GitHub Issues: [your-repo/issues](https://github.com/your-org/mas-ai/issues)
+- Email: support@mas-ai.com
+- Documentation: [docs.mas-ai.com](https://docs.mas-ai.com)
 
 ---
 

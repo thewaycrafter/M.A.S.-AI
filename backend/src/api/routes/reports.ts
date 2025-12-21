@@ -80,7 +80,7 @@ router.get('/:scanId', async (req: Request, res: Response) => {
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader(
             'Content-Disposition',
-            `attachment; filename="singhal-ai-report-${scanId}-${Date.now()}.pdf"`
+            `attachment; filename="mas-ai-report-${scanId}-${Date.now()}.pdf"`
         );
         res.setHeader('Content-Length', pdfBuffer.length);
 
@@ -128,7 +128,7 @@ router.post('/generate', async (req: Request, res: Response) => {
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader(
             'Content-Disposition',
-            `attachment; filename="singhal-ai-report-${Date.now()}.pdf"`
+            `attachment; filename="mas-ai-report-${Date.now()}.pdf"`
         );
         res.setHeader('Content-Length', pdfBuffer.length);
 

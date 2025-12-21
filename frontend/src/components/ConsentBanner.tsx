@@ -43,7 +43,7 @@ export default function ConsentBanner({ onAccept }: ConsentBannerProps) {
                     <div className={styles.text}>
                         <h3>⚠️ Authorized Use Only</h3>
                         <p>
-                            By using Singhal AI, you agree to conduct security testing ONLY on systems you own or have explicit permission to test.
+                            By using M.A.S. AI, you agree to conduct security testing ONLY on systems you own or have explicit permission to test.
                             Unauthorized penetration testing is illegal.
                         </p>
                     </div>

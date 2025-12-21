@@ -49,12 +49,12 @@ const config: Config = {
     },
     mongodb: {
         uri: process.env.MONGODB_URI || '',
-        database: process.env.MONGODB_DATABASE || 'singhal-ai',
+        database: process.env.MONGODB_DATABASE || 'mas-ai',
     },
     postgres: {
         host: process.env.POSTGRES_HOST || '',
         port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
-        database: process.env.POSTGRES_DATABASE || 'singhal_audit',
+        database: process.env.POSTGRES_DATABASE || 'mas_ai_audit',
         user: process.env.POSTGRES_USER || 'postgres',
         password: process.env.POSTGRES_PASSWORD || '',
     },

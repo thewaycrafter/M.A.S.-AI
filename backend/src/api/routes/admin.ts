@@ -345,7 +345,7 @@ router.post('/users/:id/send-reset-link', requireAuth, requireAdmin, async (req:
 
         await sendEmail({
             to: user.email,
-            subject: '[Singhal AI] Password Reset Request',
+            subject: '[M.A.S. AI] Password Reset Request',
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #1a1a2e; color: #ffffff; padding: 30px; border-radius: 10px;">
                     <h1 style="color: #00ff41; text-align: center;">SINGHAL AI</h1>

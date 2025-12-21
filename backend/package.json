@@ -1,7 +1,7 @@
 {
-  "name": "singhal-ai-backend",
+  "name": "mas-ai-backend",
   "version": "1.0.0",
-  "description": "Singhal AI - Defensive-First AI Penetration Testing Engine Backend",
+  "description": "M.A.S. AI - Multi-agent Adaptive Security - Defensive-First AI Penetration Testing Engine Backend",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon --exec ts-node src/server.ts",
@@ -15,7 +15,7 @@
     "ai",
     "vulnerability-scanning"
   ],
-  "author": "Singhal AI",
+  "author": "M.A.S. AI",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

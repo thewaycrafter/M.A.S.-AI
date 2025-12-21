@@ -113,7 +113,7 @@ reportSchema.statics.createFromBuffer = async function (
     scanSummary: any,
     generatedBy?: mongoose.Types.ObjectId
 ) {
-    const filename = `singhal-ai-report-${scanSummary.scanId || Date.now()}.pdf`;
+    const filename = `mas-ai-report-${scanSummary.scanId || Date.now()}.pdf`;
 
     return this.create({
         userId,

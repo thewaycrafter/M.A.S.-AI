@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/aegis-ai';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mas-ai';
 const JWT_SECRET = process.env.JWT_SECRET || 'dev_secret';
 
 async function verifyAuthBlocking() {

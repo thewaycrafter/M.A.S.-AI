@@ -67,7 +67,7 @@ export default function CheckoutPage() {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_dummy', // Replace with logic to get key if needed from backend
                 amount: order.amount,
                 currency: order.currency,
-                name: 'Singhal AI',
+                name: 'M.A.S. AI',
                 description: `Upgrade to ${tier.toUpperCase()}`,
                 order_id: order.id,
                 handler: async function (response: any) {

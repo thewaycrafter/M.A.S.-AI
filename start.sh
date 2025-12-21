@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Aegis AI Start Script
+# M.A.S. AI Start Script
 
 # Function to kill child processes on exit
 cleanup() {
     echo ""
-    echo "🛑 Shutting down Aegis AI..."
+    echo "🛑 Shutting down M.A.S. AI..."
     kill $(jobs -p) 2>/dev/null
     exit
 }
@@ -13,7 +13,7 @@ cleanup() {
 # Trap SIGINT (Ctrl+C)
 trap cleanup SIGINT
 
-echo "🛡️  Starting Aegis AI..."
+echo "🛡️  Starting M.A.S. AI..."
 echo "======================="
 
 # Check if ports are already in use
@@ -46,7 +46,7 @@ FRONTEND_PID=$!
 cd ..
 
 echo "======================="
-echo "✅ Aegis AI is running!"
+echo "✅ M.A.S. AI is running!"
 echo "   - Backend: http://localhost:3001"
 echo "   - Frontend: http://localhost:3000"
 echo ""

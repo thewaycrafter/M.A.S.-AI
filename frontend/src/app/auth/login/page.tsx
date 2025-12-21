@@ -59,7 +59,7 @@ export default function LoginPage() {
         <div className={styles.container}>
             <div className={styles.formCard}>
                 <div className={styles.header}>
-                    <div className={styles.terminalPrompt}>root@singhal-ai:~#</div>
+                    <div className={styles.terminalPrompt}>root@mas-ai:~#</div>
                     <Link href="/">
                         <h1 className={styles.title}>SINGHAL AI</h1>
                     </Link>

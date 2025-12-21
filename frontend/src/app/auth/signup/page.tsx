@@ -58,7 +58,7 @@ export default function SignupPage() {
                 key: order.key,
                 amount: order.amount,
                 currency: order.currency,
-                name: "Singhal AI",
+                name: "M.A.S. AI",
                 description: "Pro Subscription",
                 order_id: order.orderId,
                 handler: async function (response: any) {
@@ -154,7 +154,7 @@ export default function SignupPage() {
         <div className={styles.container}>
             <div className={styles.formCard}>
                 <div className={styles.header}>
-                    <div className={styles.terminalPrompt}>root@singhal-ai:~#</div>
+                    <div className={styles.terminalPrompt}>root@mas-ai:~#</div>
                     <Link href="/">
                         <h1 className={styles.title}>SINGHAL AI</h1>
                     </Link>

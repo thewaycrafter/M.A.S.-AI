@@ -49,8 +49,8 @@ export class PDFReportGenerator {
             margins: { top: 50, bottom: 50, left: 50, right: 50 },
             bufferPages: true,
             info: {
-                Title: 'Singhal AI Security Assessment Report',
-                Author: 'Singhal AI',
+                Title: 'M.A.S. AI Security Assessment Report',
+                Author: 'M.A.S. AI',
                 Subject: 'Vulnerability Scan Report',
             }
         });
@@ -200,7 +200,7 @@ export class PDFReportGenerator {
             .fillColor(this.colors.text)
             .font('Helvetica')
             .text(
-                `This comprehensive security assessment was conducted on ${report.target} using Singhal AI's advanced vulnerability scanning platform. Our AI-powered analysis evaluated ${report.coverage.totalCategories} security domains and identified ${report.findings.total} findings requiring attention.`,
+                `This comprehensive security assessment was conducted on ${report.target} using M.A.S. AI's advanced vulnerability scanning platform. Our AI-powered analysis evaluated ${report.coverage.totalCategories} security domains and identified ${report.findings.total} findings requiring attention.`,
                 { align: 'justify', lineGap: 4 }
             );
 
@@ -702,7 +702,7 @@ export class PDFReportGenerator {
                     .fontSize(9)
                     .fillColor(this.colors.textLight)
                     .font('Helvetica')
-                    .text('Singhal AI Security Report', 60, 778)
+                    .text('M.A.S. AI Security Report', 60, 778)
                     .text(`Page ${i + 1} of ${range.count}`, 450, 778, { width: 85, align: 'right' });
             }
         }
