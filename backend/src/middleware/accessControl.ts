@@ -38,7 +38,7 @@ export const requireAuth = async (req: any, res: Response, next: NextFunction) =
 
         const jwt = require('jsonwebtoken');
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'fallback-secret');
-        const user = await User.findById(decoded.userId);
+        const user = await User.findById(decoded.id || decoded.userId);
 
         if (!user) {
             return res.status(401).json({ error: 'User not found' });

@@ -183,6 +183,7 @@ async function startServer() {
         // Connect to MongoDB (optional)
         if (config.mongodb.uri) {
             try {
+                console.log('⏳ Connecting to MongoDB...');
                 await connectMongoDB();
                 console.log('✅ MongoDB initialized for scan results storage');
             } catch (mongoError) {
@@ -197,7 +198,10 @@ async function startServer() {
         if (config.postgres.host) {
             try {
                 const pgPool = getPostgresPool();
+                console.log('⏳ Testing PostgreSQL connection...');
                 await pgPool.query('SELECT NOW()'); // Test connection
+                console.log('✅ PostgreSQL connection verified');
+                console.log('⏳ Initializing audit tables...');
                 await initializeAuditTables();
                 console.log('✅ PostgreSQL initialized for immutable audit logs');
             } catch (pgError) {

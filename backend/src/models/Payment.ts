@@ -1,11 +1,16 @@
 import mongoose from 'mongoose';
 
 const paymentSchema = new mongoose.Schema({
+
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
         index: true,
+    },
+    userEmail: {
+        type: String,
+        required: false, // Optional for backward compatibility, but we will populate it
     },
     amount: {
         type: Number,
@@ -24,9 +29,10 @@ const paymentSchema = new mongoose.Schema({
         default: 'pending',
     },
     subscription: {
+
         tier: {
             type: String,
-            enum: ['pro', 'enterprise'],
+            enum: ['pro', 'business', 'enterprise'],
         },
         duration: {
             type: String,

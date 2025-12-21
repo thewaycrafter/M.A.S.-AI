@@ -9,6 +9,7 @@ import styles from './pricing.module.css';
 export default function PricingPage() {
     const router = useRouter();
     const [user, setUser] = useState<any>(null);
+    const [billingCycle, setBillingCycle] = useState<'monthly' | 'yearly'>('monthly');
 
     useEffect(() => {
         if (isAuthenticated()) {
@@ -21,8 +22,8 @@ export default function PricingPage() {
             router.push('/auth/login');
             return;
         }
-        // Redirect to payment flow (will implement Razorpay later)
-        router.push(`/checkout?tier=${tier}`);
+        // Pass duration to checkout
+        router.push(`/checkout?tier=${tier}&duration=${billingCycle}`);
     };
 
     return (
@@ -34,6 +35,20 @@ export default function PricingPage() {
                         <span className={styles.glitch}>CHOOSE YOUR PLAN</span>
                     </h1>
                     <p className={styles.subtitle}>Scale your security testing with AI-powered penetration testing</p>
+
+                    {/* Billing Toggle */}
+                    <div className={styles.billingToggle}>
+                        <span className={`${styles.billingLabel} ${billingCycle === 'monthly' ? styles.active : ''}`}>Monthly</span>
+                        <div
+                            className={`${styles.toggleSwitch} ${billingCycle === 'yearly' ? styles.toggled : ''}`}
+                            onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+                        >
+                            <div className={styles.toggleThumb} />
+                        </div>
+                        <span className={`${styles.billingLabel} ${billingCycle === 'yearly' ? styles.active : ''}`}>
+                            Yearly <span className={styles.saveBadge}>SAVE 17%</span>
+                        </span>
+                    </div>
                 </div>
 
                 <div className={styles.pricingGrid}>
@@ -44,7 +59,7 @@ export default function PricingPage() {
                             <div className={styles.price}>
                                 <span className={styles.currency}>₹</span>
                                 <span className={styles.amount}>0</span>
-                                <span className={styles.period}>/month</span>
+                                <span className={styles.period}>{billingCycle === 'yearly' ? '/year' : '/month'}</span>
                             </div>
                             <p className={styles.tierDesc}>Get started with basic security testing</p>
                         </div>
@@ -80,10 +95,10 @@ export default function PricingPage() {
                             <h2 className={styles.tierName}>Pro</h2>
                             <div className={styles.price}>
                                 <span className={styles.currency}>₹</span>
-                                <span className={styles.amount}>2,999</span>
-                                <span className={styles.period}>/month</span>
+                                <span className={styles.amount}>{billingCycle === 'yearly' ? '29,999' : '2,999'}</span>
+                                <span className={styles.period}>{billingCycle === 'yearly' ? '/year' : '/month'}</span>
                             </div>
-                            <p className={styles.tierDesc}>Professional security testing for growing teams</p>
+                            <p className={styles.tierDesc}>Professional security testing for individuals</p>
                         </div>
 
                         <ul className={styles.features}>
@@ -106,8 +121,44 @@ export default function PricingPage() {
                         </button>
 
                         <div className={styles.costInfo}>
-                            <p>💰 Avg Cost: ₹1.50/scan × unlimited = Best Value!</p>
-                            <p>💎 Profit: 99% margin after OpenAI costs</p>
+                            <p>💰 Best Value for Solo Researchers</p>
+                        </div>
+                    </div>
+
+
+                    {/* Business Tier - NEW */}
+                    <div className={styles.pricingCard}>
+                        <div className={styles.cardHeader}>
+                            <h2 className={styles.tierName}>Business</h2>
+                            <div className={styles.price}>
+                                <span className={styles.currency}>₹</span>
+                                <span className={styles.amount}>{billingCycle === 'yearly' ? '99,999' : '9,999'}</span>
+                                <span className={styles.period}>{billingCycle === 'yearly' ? '/year' : '/month'}</span>
+                            </div>
+                            <p className={styles.tierDesc}>Advanced security for teams & agencies</p>
+                        </div>
+
+                        <ul className={styles.features}>
+                            <li className={styles.feature}>✅ Everything in Pro</li>
+                            <li className={styles.feature}>✅ 5 User Seats</li>
+                            <li className={styles.feature}>✅ White-label PDF Reports</li>
+                            <li className={styles.feature}>✅ CI/CD Integration Tools</li>
+                            <li className={styles.feature}>✅ Audit Logs Retention (Forever)</li>
+                            <li className={styles.feature}>✅ Advanced Reconnaissance Agent</li>
+                            <li className={styles.feature}>✅ Custom Scanning Profiles</li>
+                            <li className={styles.feature}>🚀 <span style={{ color: '#00ff41' }}>Dedicated Account Manager</span></li>
+                        </ul>
+
+                        <button
+                            className={`${styles.upgradeBtn} ${user?.subscription?.tier === 'business' ? styles.current : ''}`}
+                            disabled={user?.subscription?.tier === 'business'}
+                            onClick={() => handleUpgrade('business')}
+                        >
+                            {user?.subscription?.tier === 'business' ? 'Current Plan' : 'Upgrade to Business'}
+                        </button>
+
+                        <div className={styles.costInfo}>
+                            <p>🏢 Ideal for small security teams</p>
                         </div>
                     </div>
 
@@ -122,14 +173,14 @@ export default function PricingPage() {
                         </div>
 
                         <ul className={styles.features}>
-                            <li className={styles.feature}>✅ Everything in Pro</li>
+                            <li className={styles.feature}>✅ Everything in Business</li>
                             <li className={styles.feature}>✅ Unlimited users</li>
-                            <li className={styles.feature}>✅ White-label reports</li>
-                            <li className={styles.feature}>✅ Custom integrations</li>
-                            <li className={styles.feature}>✅ Dedicated support</li>
-                            <li className={styles.feature}>✅ SLA guarantee</li>
-                            <li className={styles.feature}>✅ Admin dashboard</li>
-                            <li className={styles.feature}>🔒 Full security compliance</li>
+                            <li className={styles.feature}>✅ SSO / SAML Integration</li>
+                            <li className={styles.feature}>✅ On-premise Deployment Option</li>
+                            <li className={styles.feature}>✅ Custom Contracts & SLA</li>
+                            <li className={styles.feature}>✅ 24/7 Dedicated Support</li>
+                            <li className={styles.feature}>✅ Custom AI Model Tuning</li>
+                            <li className={styles.feature}>🔒 ISO/SOC2 Compliance Assistance</li>
                         </ul>
 
                         <button
@@ -141,7 +192,7 @@ export default function PricingPage() {
                         </button>
 
                         <div className={styles.costInfo}>
-                            <p>📞 Custom pricing based on team size</p>
+                            <p>📞 Custom pricing based on scale</p>
                         </div>
                     </div>
                 </div>
@@ -156,6 +207,7 @@ export default function PricingPage() {
                                     <th>Feature</th>
                                     <th>Free</th>
                                     <th>Pro</th>
+                                    <th>Business</th>
                                     <th>Enterprise</th>
                                 </tr>
                             </thead>
@@ -165,22 +217,26 @@ export default function PricingPage() {
                                     <td>3</td>
                                     <td>Unlimited</td>
                                     <td>Unlimited</td>
+                                    <td>Unlimited</td>
                                 </tr>
                                 <tr>
                                     <td>Vulnerability classes</td>
                                     <td>20</td>
                                     <td>200+</td>
                                     <td>200+</td>
+                                    <td>Custom</td>
                                 </tr>
                                 <tr>
-                                    <td>PDF reports</td>
-                                    <td>✅</td>
-                                    <td>✅</td>
-                                    <td>✅ White-label</td>
+                                    <td>Report Branding</td>
+                                    <td>Standard</td>
+                                    <td>Standard</td>
+                                    <td>White-label</td>
+                                    <td>White-label</td>
                                 </tr>
                                 <tr>
-                                    <td>JSON export</td>
+                                    <td>JSON & Export</td>
                                     <td>❌</td>
+                                    <td>✅</td>
                                     <td>✅</td>
                                     <td>✅</td>
                                 </tr>
@@ -189,18 +245,28 @@ export default function PricingPage() {
                                     <td>❌</td>
                                     <td>12 months</td>
                                     <td>Unlimited</td>
+                                    <td>Unlimited</td>
                                 </tr>
                                 <tr>
                                     <td>API access</td>
                                     <td>❌</td>
                                     <td>✅</td>
                                     <td>✅</td>
+                                    <td>✅</td>
+                                </tr>
+                                <tr>
+                                    <td>Integrations</td>
+                                    <td>❌</td>
+                                    <td>Basic</td>
+                                    <td>CI/CD</td>
+                                    <td>Custom</td>
                                 </tr>
                                 <tr>
                                     <td>Support</td>
                                     <td>Community</td>
                                     <td>Priority</td>
-                                    <td>Dedicated</td>
+                                    <td>Dedicated Mgr</td>
+                                    <td>24/7 SLA</td>
                                 </tr>
                             </tbody>
                         </table>

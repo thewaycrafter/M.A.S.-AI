@@ -151,7 +151,16 @@ Emergency stop button:
 
 ## 5. Administration {#admin}
 
-### Authorization Management
+### User Authorization Management (New!)
+**URL:** `/authorizations`
+
+**Features:**
+- View status of all your scan requests (Pending, Approved, Denied)
+- Request authorization for new domains
+- Send email reminders to approvers
+- Filter requests by status
+
+### Admin Authorization Management
 **URL:** `/admin/authorization`
 
 **Add Authorized Target:**
@@ -250,5 +259,5 @@ To clear all scan data:
 ---
 
 **Version:** 1.0.0  
-**Last Updated:** December 17, 2024  
+**Last Updated:** December 22, 2025  
 **Status:** Production Ready 🚀

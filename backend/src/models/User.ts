@@ -82,7 +82,8 @@ const userSchema = new mongoose.Schema({
     subscription: {
         tier: {
             type: String,
-            enum: ['free', 'pro', 'enterprise'],
+
+            enum: ['free', 'pro', 'business', 'enterprise'],
             default: 'free',
         },
         status: {
@@ -182,8 +183,10 @@ userSchema.methods.canScan = function (): { allowed: boolean; reason?: string } 
     }
 
     const tierLimits: Record<string, number> = {
+
         free: 3,
         pro: Infinity,
+        business: Infinity,
         enterprise: Infinity,
     };
 

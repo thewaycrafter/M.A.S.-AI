@@ -53,7 +53,9 @@ export default function Navigation() {
                 <div className={styles.menu}>
                     <Link href="/dashboard" className={styles.navLink}>Dashboard</Link>
                     <Link href="/scans" className={styles.navLink}>Scan Info</Link>
+
                     <Link href="/history" className={styles.navLink}>History</Link>
+                    <Link href="/authorizations" className={styles.navLink}>Authorizations</Link>
                     <Link href="/profile" className={styles.navLink}>Profile</Link>
 
                     {/* Admin-only links */}
@@ -62,6 +64,7 @@ export default function Navigation() {
                             <button className={styles.navLink}>Admin ▼</button>
                             <div className={styles.dropdownContent}>
                                 <Link href="/admin/scan-history">Scan History</Link>
+                                <Link href="/admin/users">User Management</Link>
                                 <Link href="/admin/authorization">Authorization</Link>
                                 <Link href="/admin/audit">Audit Logs</Link>
                             </div>
@@ -83,7 +86,7 @@ export default function Navigation() {
                         <div className={styles.dropdownContent}>
                             <div className={styles.userInfo}>
                                 <p><strong>{user.subscription?.tier || 'free'}</strong> plan</p>
-                                <p>Scans: {user.usage?.scansThisMonth || 0}/{user.role === 'free' ? '3' : '∞'}</p>
+                                <p>Scans: {user.usage?.scansThisMonth || 0}/{user.subscription?.tier === 'free' ? '3' : '∞'}</p>
                             </div>
                             <Link href="/pricing">Billing</Link>
                             <button onClick={handleLogout} className={styles.logoutBtn}>

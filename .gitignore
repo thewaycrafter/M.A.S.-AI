@@ -40,3 +40,9 @@ lerna-debug.log*
 .turbo
 *.tsbuildinfo
 next-env.d.ts
+
+# Temporary Debug Scripts
+check_db_config.ts
+check_users.ts
+backend/src/debug-entry.ts
+backend/src/test-db.ts

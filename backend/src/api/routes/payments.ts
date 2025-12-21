@@ -20,8 +20,11 @@ router.post('/create-order', requireAuth, async (req: AuthRequest, res) => {
 
         // Calculate amount based on tier
         let amount = 0;
+
         if (tier === 'pro') {
             amount = duration === 'yearly' ? 29999 : 2999; // ₹2,999/month or ₹29,999/year
+        } else if (tier === 'business') {
+            amount = duration === 'yearly' ? 99999 : 9999; // ₹9,999/month or ₹99,999/year
         }
 
         // Create Razorpay order
@@ -39,8 +42,10 @@ router.post('/create-order', requireAuth, async (req: AuthRequest, res) => {
         const order: any = await razorpay.orders.create(options as any);
 
         // Save payment record
+
         const payment = new Payment({
             userId: req.user?.id,
+            userEmail: req.user?.email,
             amount: amount,
             currency: 'INR',
             razorpayOrderId: order.id,

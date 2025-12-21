@@ -154,6 +154,7 @@ router.patch('/users/:id', requireAuth, requireAdmin, async (req: any, res) => {
         if (lastName) updateData.lastName = lastName;
         if (company) updateData.company = company;
         if (phone) updateData.phone = phone;
+        if (req.body.isEmailVerified !== undefined) updateData.isEmailVerified = req.body.isEmailVerified;
 
         const user = await User.findByIdAndUpdate(
             req.params.id,

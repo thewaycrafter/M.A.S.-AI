@@ -5,10 +5,22 @@
     color: #e0e0e0;
 }
 
+
 .header {
     margin-bottom: 2rem;
     border-bottom: 1px solid rgba(0, 255, 65, 0.2);
     padding-bottom: 1rem;
+}
+
+.headerTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.row {
+    display: flex;
+    gap: 1rem;
 }
 
 .title {
@@ -253,4 +265,148 @@
     border-radius: 4px;
     margin-bottom: 1rem;
     border: 1px solid rgba(255, 50, 50, 0.3);
+}
+
+/* Bulk Actions */
+.checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #00ff41;
+    background: transparent;
+    border: 1px solid #333;
+}
+
+.bulkToolbar {
+    position: sticky;
+    bottom: 2rem;
+    background: rgba(10, 14, 20, 0.95);
+    border: 1px solid #00ff41;
+    padding: 1rem 2rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.15);
+    backdrop-filter: blur(10px);
+    margin-top: 1rem;
+    animation: slideUp 0.3s ease-out;
+    z-index: 100;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: #0a0e14;
+    border: 1px solid #00ff41;
+    border-radius: 8px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 0 40px rgba(0, 255, 65, 0.2);
+    animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 1rem;
+}
+
+.closeBtn {
+    background: transparent;
+    border: none;
+    color: #888;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.closeBtn:hover {
+    color: #fff;
+}
+
+.formGroup {
+    margin-bottom: 1.5rem;
+}
+
+.label {
+    display: block;
+    color: #888;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.input,
+.select {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid #333;
+    color: #fff;
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.input:focus,
+.select:focus {
+    outline: none;
+    border-color: #00ff41;
+}
+
+.modalActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.bulkActions {
+    display: flex;
+    gap: 1rem;
+}
+
+.selectedCount {
+    color: #00ff41;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
 }

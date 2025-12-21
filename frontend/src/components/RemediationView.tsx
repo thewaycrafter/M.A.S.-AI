@@ -76,7 +76,8 @@ ${remediation.secure.split('\n').map(line => `+ ${line}`).join('\n')}
 `;
         const blob = new Blob([patch], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
-        const a = document.create Element('a');
+
+        const a = document.createElement('a');
         a.href = url;
         a.download = `${vulnerability.title.replace(/\s+/g, '_')}_remediation.patch`;
         a.click();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './checkout.module.css';
 
@@ -10,10 +10,11 @@ declare global {
     }
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const tier = searchParams.get('tier') || 'pro';
+    const duration = searchParams.get('duration') || 'monthly';
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -32,11 +33,17 @@ export default function CheckoutPage() {
         const token = localStorage.getItem('token');
         const userData = localStorage.getItem('user');
         if (!token || !userData) {
-            router.push(`/auth/login?redirect=/checkout?tier=${tier}`);
+            router.push(`/auth/login?redirect=/checkout?tier=${tier}&duration=${duration}`);
             return;
         }
         setUser(JSON.parse(userData));
-    }, [router, tier]);
+    }, [router, tier, duration]);
+
+    const getPrice = () => {
+        if (tier === 'pro') return duration === 'yearly' ? '29,999' : '2,999';
+        if (tier === 'business') return duration === 'yearly' ? '99,999' : '9,999';
+        return '0';
+    };
 
     const handlePayment = async () => {
         setLoading(true);
@@ -55,7 +62,7 @@ export default function CheckoutPage() {
                 },
                 body: JSON.stringify({
                     tier: tier,
-                    duration: 'monthly'
+                    duration: duration
                 })
             });
 
@@ -64,11 +71,11 @@ export default function CheckoutPage() {
 
             // 2. Open Razorpay
             const options = {
-                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_dummy', // Replace with logic to get key if needed from backend
+                key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_dummy',
                 amount: order.amount,
                 currency: order.currency,
                 name: 'M.A.S. AI',
-                description: `Upgrade to ${tier.toUpperCase()}`,
+                description: `Upgrade to ${tier.toUpperCase()} (${duration})`,
                 order_id: order.id,
                 handler: async function (response: any) {
                     try {
@@ -86,11 +93,15 @@ export default function CheckoutPage() {
                         });
 
                         const verifyData = await verifyRes.json();
-                        if (verifyData.success) {
+                        if (verifyRes.ok) {
                             alert('Upgrade Successful! Refreshing...');
-                            // Update local user role
-                            const updatedUser = { ...user, role: 'pro' };
-                            localStorage.setItem('user', JSON.stringify(updatedUser));
+                            // Update local user role/subscription
+                            const updatedUser = {
+                                ...user,
+                                role: tier === 'business' ? 'pro' : 'user', // Simplified role mapping
+                                subscription: verifyData.subscription
+                            };
+                            localStorage.setItem('user', JSON.stringify(updatedUser)); // Optimistic update
                             router.push('/dashboard');
                         } else {
                             throw new Error('Payment verification failed');
@@ -105,7 +116,7 @@ export default function CheckoutPage() {
                     email: user?.email,
                 },
                 theme: {
-                    color: '#00ff00'
+                    color: '#00ff41'
                 }
             };
 
@@ -126,35 +137,46 @@ export default function CheckoutPage() {
     if (!user) return <div className={styles.container}>Loading secure channel...</div>;
 
     return (
-        <div className={styles.container}>
-            <div className={styles.card}>
-                <div className={styles.title}>System Upgrade</div>
+        <div className={styles.card}>
+            <div className={styles.title}>System Upgrade</div>
 
-                <div className={styles.planPreview}>
-                    <div className={styles.planName}>
-                        <span>M.A.S. AI {tier.toUpperCase()}</span>
-                        <span className={styles.planPrice}>₹2,999</span>
-                    </div>
-                    <ul className={styles.features}>
-                        <li>Unlimited Scans</li>
-                        <li>Advanced AI Agents</li>
-                        <li>PDF Report Export</li>
-                        <li>Priority Support</li>
-                    </ul>
+            <div className={styles.planPreview}>
+                <div className={styles.planName}>
+                    <span>M.A.S. AI {tier.toUpperCase()}</span>
+                    <span className={styles.planPrice}>₹{getPrice()}</span>
                 </div>
-
-                {error && <div className={styles.error}>{error}</div>}
-
-                <button
-                    className={styles.payBtn}
-                    onClick={handlePayment}
-                    disabled={loading || !razorpayLoaded}
-                >
-                    {loading ? 'Processing...' : 'INITIALIZE UPLINK [PAY]'}
-                </button>
-
-                <a href="/dashboard" className={styles.backLink}>[ ABORT / RETURN TO TERMINAL ]</a>
+                <div style={{ color: '#888', marginBottom: '1rem', fontSize: '0.9rem' }}>
+                    Billing Cycle: <span style={{ color: '#fff' }}>{duration.charAt(0).toUpperCase() + duration.slice(1)}</span>
+                </div>
+                <ul className={styles.features}>
+                    <li>Unlimited Scans</li>
+                    <li>Advanced AI Agents</li>
+                    <li>PDF Report Export</li>
+                    {tier === 'business' && <li style={{ color: '#fca5a5' }}>White-label Reports & 5 Seats</li>}
+                </ul>
             </div>
+
+            {error && <div className={styles.error}>{error}</div>}
+
+            <button
+                className={styles.payBtn}
+                onClick={handlePayment}
+                disabled={loading || !razorpayLoaded}
+            >
+                {loading ? 'Processing...' : 'INITIALIZE UPLINK [PAY]'}
+            </button>
+
+            <a href="/pricing" className={styles.backLink}>[ ABORT / RETURN TO PRICING ]</a>
+        </div>
+    );
+}
+
+export default function CheckoutPage() {
+    return (
+        <div className={styles.container}>
+            <Suspense fallback={<div>Loading payment terminal...</div>}>
+                <CheckoutContent />
+            </Suspense>
         </div>
     );
 }

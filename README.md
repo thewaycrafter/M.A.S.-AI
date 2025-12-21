@@ -86,7 +86,7 @@
 - **PDF Reports** - Professional security assessment reports
 - **Kill Switch** - Instant scan termination for safety
 - **Audit Logging** - Immutable HMAC-signed audit trails
-- **Role-Based Access** - Admin, Pro, and Free tier management
+- **Role-Based Access** - Admin, Business, Pro, and Free tier management
 - **Usage Analytics** - Scan history, vulnerability trends
 
 ---
@@ -176,7 +176,7 @@ cd frontend && npm run dev
 ┌─────────────────────────────────────────────────────────────────┐
 │                        Frontend (Next.js)                        │
 │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │
-│  │Dashboard │ │ History  │ │ Profile  │ │   Admin Panel    │   │
+│  │Dashboard │ │ History  │ │Authorizat│ │   Admin Panel    │   │
 │  └────┬─────┘ └────┬─────┘ └────┬─────┘ └────────┬─────────┘   │
 │       │            │            │                 │              │
 │       └────────────┴────────────┴─────────────────┘              │
@@ -285,6 +285,8 @@ GET  /api/reports/:scanId  # Download PDF report
 GET  /api/scan-history/admin-all    # All scans (admin)
 GET  /api/scan-history/admin-stats  # Statistics
 GET  /api/authorization/all         # All auth requests
+GET  /api/authorization/my-requests # User's requests
+POST /api/authorization/request     # New auth request
 POST /api/authorization/admin-bypass/:id  # Bypass approval
 ```
 

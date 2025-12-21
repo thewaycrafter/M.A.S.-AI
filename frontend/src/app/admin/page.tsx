@@ -36,6 +36,20 @@ export default function AdminDashboard() {
                 </div>
 
                 <div className={styles.grid}>
+                    {/* User Management Card */}
+                    <div className={styles.card}>
+                        <div className={styles.cardHeader}>
+                            <span className={styles.cardIcon}>👥</span>
+                            <h2>User Management</h2>
+                        </div>
+                        <p className={styles.cardDescription}>
+                            Manage user accounts, update subscriptions, and control access permissions. Block or delete users as needed.
+                        </p>
+                        <Link href="/admin/users" className={styles.btnSecondary}>
+                            Manage Users →
+                        </Link>
+                    </div>
+
                     {/* Authorization Management Card */}
                     <div className={styles.card}>
                         <div className={styles.cardHeader}>
