@@ -51,7 +51,7 @@ app.get('/', (req: Request, res: Response) => {
         message: 'Welcome to M.A.S. AI. Use /api for endpoints, /health for status.',
         ascii: `
 ╔═══════════════════════════════════════════════════════════╗
-║                     SINGHAL AI                            ║
+║                     M.A.S. AI                             ║
 ║       Defensive-First AI Penetration Testing Engine       ║
 ╚═══════════════════════════════════════════════════════════╝
     `,
@@ -214,7 +214,7 @@ async function startServer() {
             console.log(`
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║                     SINGHAL AI                            ║
+║                     M.A.S. AI                             ║
 ║       Defensive-First AI Penetration Testing Engine       ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
