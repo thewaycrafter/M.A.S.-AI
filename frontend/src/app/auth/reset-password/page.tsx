@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import styles from '../login/login.module.css';
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const token = searchParams.get('token');
@@ -89,11 +89,11 @@ export default function ResetPasswordPage() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.loginBox}>
+            <div className={styles.formCard}>
                 <div className={styles.header}>
-                    <Link href="/" className={styles.logo}>M.A.S. AI</Link>
+                    <div className={styles.terminalPrompt}>M.A.S. AI</div>
                     <h1 className={styles.title}>
-                        {stage === 'request' ? '🔐 Forgot Password' : '🔑 Reset Password'}
+                        {stage === 'request' ? '🔐 FORGOT PASSWORD' : '🔑 RESET PASSWORD'}
                     </h1>
                     <p className={styles.subtitle}>
                         {stage === 'request'
@@ -109,31 +109,23 @@ export default function ResetPasswordPage() {
                         border: '1px solid #00ff41',
                         color: '#00ff41',
                         padding: '12px',
-                        borderRadius: '8px',
                         marginBottom: '20px',
-                        textAlign: 'center'
+                        fontFamily: "'Courier New', monospace",
+                        fontSize: '12px'
                     }}>
-                        {message}
+                        [SUCCESS] {message}
                     </div>
                 )}
 
                 {error && (
-                    <div style={{
-                        background: 'rgba(255, 0, 64, 0.1)',
-                        border: '1px solid #ff0040',
-                        color: '#ff0040',
-                        padding: '12px',
-                        borderRadius: '8px',
-                        marginBottom: '20px',
-                        textAlign: 'center'
-                    }}>
+                    <div className={styles.error}>
                         {error}
                     </div>
                 )}
 
                 {stage === 'request' ? (
                     <form onSubmit={handleRequestReset} className={styles.form}>
-                        <div className={styles.inputGroup}>
+                        <div className={styles.formGroup}>
                             <label className={styles.label}>Email Address</label>
                             <input
                                 type="email"
@@ -151,12 +143,12 @@ export default function ResetPasswordPage() {
                             className={styles.submitBtn}
                             disabled={loading}
                         >
-                            {loading ? '⏳ Sending...' : '📧 Send Reset Link'}
+                            {loading ? '⏳ SENDING...' : '📧 SEND RESET LINK'}
                         </button>
                     </form>
                 ) : (
                     <form onSubmit={handleResetPassword} className={styles.form}>
-                        <div className={styles.inputGroup}>
+                        <div className={styles.formGroup}>
                             <label className={styles.label}>New Password</label>
                             <input
                                 type="password"
@@ -170,7 +162,7 @@ export default function ResetPasswordPage() {
                             />
                         </div>
 
-                        <div className={styles.inputGroup}>
+                        <div className={styles.formGroup}>
                             <label className={styles.label}>Confirm Password</label>
                             <input
                                 type="password"
@@ -189,7 +181,7 @@ export default function ResetPasswordPage() {
                             className={styles.submitBtn}
                             disabled={loading}
                         >
-                            {loading ? '⏳ Resetting...' : '🔑 Reset Password'}
+                            {loading ? '⏳ RESETTING...' : '🔑 RESET PASSWORD'}
                         </button>
                     </form>
                 )}
@@ -204,5 +196,22 @@ export default function ResetPasswordPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ResetPasswordPage() {
+    return (
+        <Suspense fallback={
+            <div className={styles.container}>
+                <div className={styles.formCard}>
+                    <div className={styles.header}>
+                        <div className={styles.terminalPrompt}>M.A.S. AI</div>
+                        <h1 className={styles.title}>⏳ LOADING...</h1>
+                    </div>
+                </div>
+            </div>
+        }>
+            <ResetPasswordContent />
+        </Suspense>
     );
 }

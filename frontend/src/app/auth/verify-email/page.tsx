@@ -46,23 +46,27 @@ function VerifyEmailContent() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.loginBox}>
+            <div className={styles.formCard}>
                 <div className={styles.header}>
-                    <Link href="/" className={styles.logo}>M.A.S. AI</Link>
+                    <div className={styles.terminalPrompt}>M.A.S. AI</div>
                     <h1 className={styles.title}>
-                        {status === 'loading' && '⏳ Verifying...'}
-                        {status === 'success' && '✅ Email Verified!'}
-                        {status === 'error' && '❌ Verification Failed'}
+                        {status === 'loading' && '⏳ VERIFYING...'}
+                        {status === 'success' && '✅ VERIFIED!'}
+                        {status === 'error' && '❌ FAILED'}
                     </h1>
                 </div>
 
                 <div style={{
                     textAlign: 'center',
                     padding: '30px 0',
-                    color: status === 'success' ? '#00ff41' : status === 'error' ? '#ff4444' : '#888'
+                    fontFamily: "'Courier New', monospace"
                 }}>
                     {status === 'loading' && (
-                        <div style={{ fontSize: '48px', marginBottom: '20px', animation: 'spin 1s linear infinite' }}>
+                        <div style={{
+                            fontSize: '48px',
+                            marginBottom: '20px',
+                            animation: 'pulse 1s infinite'
+                        }}>
                             🔄
                         </div>
                     )}
@@ -77,25 +81,28 @@ function VerifyEmailContent() {
                         </div>
                     )}
 
-                    <p style={{ fontSize: '16px', marginBottom: '20px' }}>
+                    <p style={{
+                        fontSize: '14px',
+                        marginBottom: '20px',
+                        color: status === 'success' ? '#00ff41' : status === 'error' ? '#ff0040' : 'rgba(0, 255, 65, 0.6)'
+                    }}>
+                        {status === 'success' && '[SUCCESS] '}
+                        {status === 'error' && '[ERROR] '}
                         {message}
                     </p>
 
                     {status === 'success' && (
-                        <p style={{ color: '#888', fontSize: '14px' }}>
+                        <p style={{ color: 'rgba(0, 255, 65, 0.5)', fontSize: '12px' }}>
                             Redirecting to login page...
                         </p>
                     )}
 
                     {status === 'error' && (
-                        <div style={{ marginTop: '20px' }}>
-                            <Link
-                                href="/auth/login"
-                                className={styles.link}
-                                style={{ marginRight: '20px' }}
-                            >
+                        <div className={styles.footer} style={{ marginTop: '20px' }}>
+                            <Link href="/auth/login" className={styles.link}>
                                 Go to Login
                             </Link>
+                            {' | '}
                             <Link href="/auth/signup" className={styles.link}>
                                 Create New Account
                             </Link>
@@ -104,9 +111,9 @@ function VerifyEmailContent() {
                 </div>
 
                 <style jsx>{`
-                    @keyframes spin {
-                        from { transform: rotate(0deg); }
-                        to { transform: rotate(360deg); }
+                    @keyframes pulse {
+                        0%, 100% { opacity: 1; transform: scale(1); }
+                        50% { opacity: 0.5; transform: scale(1.1); }
                     }
                 `}</style>
             </div>
@@ -118,10 +125,10 @@ export default function VerifyEmailPage() {
     return (
         <Suspense fallback={
             <div className={styles.container}>
-                <div className={styles.loginBox}>
+                <div className={styles.formCard}>
                     <div className={styles.header}>
-                        <div className={styles.logo}>M.A.S. AI</div>
-                        <h1 className={styles.title}>⏳ Loading...</h1>
+                        <div className={styles.terminalPrompt}>M.A.S. AI</div>
+                        <h1 className={styles.title}>⏳ LOADING...</h1>
                     </div>
                 </div>
             </div>
