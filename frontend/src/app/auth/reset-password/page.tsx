@@ -35,7 +35,11 @@ function ResetPasswordContent() {
             const data = await response.json();
 
             if (response.ok) {
-                setMessage('If an account exists with this email, you will receive a password reset link.');
+                if (data.accountExists === false) {
+                    setError(data.message || 'No account found with this email address.');
+                } else {
+                    setMessage(data.message || 'Password reset link has been sent to your email.');
+                }
             } else {
                 setError(data.error || 'Failed to request password reset');
             }

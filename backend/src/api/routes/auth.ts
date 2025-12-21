@@ -57,38 +57,11 @@ router.post('/register', authLimiter, async (req, res) => {
 
         try {
             const { sendEmail } = await import('../../services/email');
+            const { emailTemplates } = await import('../../services/emailTemplates');
             await sendEmail({
                 to: email,
                 subject: '[M.A.S. AI] Verify Your Email Address',
-                html: `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <style>
-                        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0f; color: #fff; margin: 0; padding: 20px; }
-                        .container { max-width: 600px; margin: 0 auto; background: #1a1a2e; border-radius: 12px; padding: 30px; border: 1px solid #333; }
-                        .logo { color: #00ff41; font-size: 24px; font-weight: bold; font-family: monospace; }
-                        .btn { display: inline-block; background: linear-gradient(135deg, #00ff41, #00e5a0); color: #000; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 20px 0; }
-                        .footer { color: #888; font-size: 12px; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="logo">M.A.S. AI</div>
-                        <h2>🎉 Welcome to M.A.S. AI!</h2>
-                        <p>Hello ${username},</p>
-                        <p>Thank you for signing up for M.A.S. AI - the Multi-agent Adaptive Security platform.</p>
-                        <p>Please verify your email address by clicking the button below:</p>
-                        <a href="${verifyUrl}" class="btn">✅ Verify Email Address</a>
-                        <p>This link will expire in <strong>24 hours</strong>.</p>
-                        <p>If you didn't create an account with us, please ignore this email.</p>
-                        <div class="footer">
-                            <p>This is an automated message from M.A.S. AI Security Platform.</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-                `
+                html: emailTemplates.verification(username, verifyUrl)
             });
             console.log(`📧 Verification email sent to ${email}`);
         } catch (emailError) {
@@ -238,12 +211,30 @@ router.post('/forgot-password', passwordResetLimiter, async (req, res) => {
             return res.status(400).json({ error: 'Email is required' });
         }
 
-        const user: any = await User.findOne({ email: email.toLowerCase() });
+        const normalizedEmail = email.toLowerCase().trim();
+        const user: any = await User.findOne({ email: normalizedEmail });
+        const { sendEmail } = await import('../../services/email');
+        const { emailTemplates } = await import('../../services/emailTemplates');
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
 
-        // Always return success to prevent email enumeration
+        // If user doesn't exist, inform them (but still send an email for security)
         if (!user) {
+            // Send "account not found" email
+            try {
+                await sendEmail({
+                    to: normalizedEmail,
+                    subject: '[M.A.S. AI] Password Reset Request',
+                    html: emailTemplates.accountNotFound(normalizedEmail)
+                });
+                console.log(`📧 Account not found email sent to ${normalizedEmail}`);
+            } catch (emailError) {
+                console.error('Failed to send account not found email:', emailError);
+            }
+
             return res.json({
-                message: 'If an account exists with this email, you will receive a password reset link.'
+                success: false,
+                message: 'No account found with this email address. Please check the email or create a new account.',
+                accountExists: false
             });
         }
 
@@ -251,51 +242,25 @@ router.post('/forgot-password', passwordResetLimiter, async (req, res) => {
         const resetToken = user.generatePasswordResetToken();
         await user.save();
 
-        // Send reset email
-        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        // Send password reset email
         const resetUrl = `${frontendUrl}/auth/reset-password?token=${resetToken}`;
 
         try {
-            const { sendEmail } = await import('../../services/email');
             await sendEmail({
                 to: user.email,
                 subject: '[M.A.S. AI] Password Reset Request',
-                html: `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <style>
-                        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0f; color: #fff; margin: 0; padding: 20px; }
-                        .container { max-width: 600px; margin: 0 auto; background: #1a1a2e; border-radius: 12px; padding: 30px; border: 1px solid #333; }
-                        .logo { color: #00ff41; font-size: 24px; font-weight: bold; font-family: monospace; }
-                        .btn { display: inline-block; background: linear-gradient(135deg, #00ff41, #00e5a0); color: #000; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 20px 0; }
-                        .footer { color: #888; font-size: 12px; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <div class="logo">M.A.S. AI</div>
-                        <h2>Password Reset Request</h2>
-                        <p>Hello ${user.username},</p>
-                        <p>We received a request to reset your password. Click the button below to set a new password:</p>
-                        <a href="${resetUrl}" class="btn">🔑 Reset Password</a>
-                        <p>This link will expire in <strong>1 hour</strong>.</p>
-                        <p>If you didn't request this, please ignore this email. Your password will remain unchanged.</p>
-                        <div class="footer">
-                            <p>This is an automated message from M.A.S. AI Security Platform.</p>
-                        </div>
-                    </div>
-                </body>
-                </html>
-                `
+                html: emailTemplates.passwordReset(user.username, resetUrl)
             });
             console.log(`📧 Password reset email sent to ${user.email}`);
         } catch (emailError) {
             console.error('Failed to send password reset email:', emailError);
+            return res.status(500).json({ error: 'Failed to send password reset email. Please try again.' });
         }
 
         res.json({
-            message: 'If an account exists with this email, you will receive a password reset link.'
+            success: true,
+            message: 'Password reset link has been sent to your email address.',
+            accountExists: true
         });
     } catch (error) {
         console.error('Forgot password error:', error);
