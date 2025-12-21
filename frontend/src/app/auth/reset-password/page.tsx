@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import styles from '../login/page.module.css';
+import styles from '../login/login.module.css';
 
 export default function ResetPasswordPage() {
     const router = useRouter();
