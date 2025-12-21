@@ -2,31 +2,23 @@ import express, { Router, Request, Response } from 'express';
 import orchestrator from '../../agents/orchestrator';
 import { saveScanResult, writeAuditLog } from '../../services/database';
 import { requireAuth, checkUsageLimit, AuthRequest } from '../../middleware/auth';
+import { validateTargetMiddleware } from '../../middleware/validation';
+import { scanLimiter } from '../../middleware/rateLimit';
 import { User } from '../../models/User';
 import { ScanHistory } from '../../models/ScanHistory';
 
 const router: Router = express.Router();
 
-// Start a new scan
-router.post('/start', requireAuth, checkUsageLimit, async (req: AuthRequest, res: Response) => {
+// Start a new scan (with validation and rate limiting)
+router.post('/start', requireAuth, checkUsageLimit, scanLimiter, validateTargetMiddleware, async (req: AuthRequest, res: Response) => {
     try {
-        const { target } = req.body;
+        const { cleanTarget, targetWarnings } = req.body;
         const userId = req.user?.id;
 
-        if (!target) {
-            return res.status(400).json({
-                error: 'Bad Request',
-                message: 'Target parameter is required',
-            });
+        // Log any validation warnings
+        if (targetWarnings && targetWarnings.length > 0) {
+            console.log(`⚠️  Target warnings for ${cleanTarget}:`, targetWarnings);
         }
-
-        // Extract domain from URL if full URL provided
-        let cleanTarget = target;
-        try {
-            cleanTarget = target.replace(/^https?:\/\//, '');
-            cleanTarget = cleanTarget.split('/')[0];
-            cleanTarget = cleanTarget.replace(/^www\./, '');
-        } catch (e) { }
 
         console.log(`🎯 Initiating scan on ${cleanTarget} by user ${req.user?.username}`);
 
@@ -155,7 +147,7 @@ router.post('/start', requireAuth, checkUsageLimit, async (req: AuthRequest, res
                 assets: results.results?.assets || {},
                 metadata: {
                     scanType: 'comprehensive',
-                    originalTarget: target,
+                    originalTarget: cleanTarget,
                     userId,
                 },
             });
