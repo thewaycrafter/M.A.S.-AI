@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Joyride from 'react-joyride';
 import LiveConsole from '@/components/LiveConsole';
 import Navigation from '@/components/Navigation';
+import AuthorizationStatus from '@/components/AuthorizationStatus';
 import styles from './dashboard.module.css';
 import Image from 'next/image';
 import { isAuthenticated, getUser, getToken } from '@/utils/auth';
@@ -620,6 +621,9 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         </div>
+
+                        {/* Authorization Status */}
+                        <AuthorizationStatus />
 
                         {/* Main Grid: Console + Sidebar */}
                         <div className={styles.mainGrid}>

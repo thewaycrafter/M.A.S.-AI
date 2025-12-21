@@ -99,7 +99,7 @@ export class PDFReportGenerator {
             .fontSize(56)
             .fillColor(this.colors.white)
             .font('Helvetica-Bold')
-            .text('SINGHAL', 60, 100, { characterSpacing: 4 });
+            .text('M.A.S. AI', 60, 100, { characterSpacing: 4 });
 
         this.doc
             .fontSize(56)

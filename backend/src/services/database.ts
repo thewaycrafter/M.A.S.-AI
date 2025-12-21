@@ -210,7 +210,14 @@ function createSignature(log: AuditLog, timestamp: Date): string {
  * Write Immutable Audit Log to PostgreSQL
  */
 export async function writeAuditLog(log: AuditLog): Promise<void> {
-    const pool = getPostgresPool();
+    const pool = getPostgresPool(); // This might return null/undefined if we change getPostgresPool to verify or we check config here
+
+    // Check if Postgres is actually configured/connected
+    if (!config.postgres.host) {
+        console.warn(`⚠️  PostgreSQL not configured - skipping audit log: ${log.eventType}`);
+        return;
+    }
+
     const timestamp = new Date();
     const signature = createSignature(log, timestamp);
 
@@ -234,7 +241,7 @@ export async function writeAuditLog(log: AuditLog): Promise<void> {
         console.log(`📝 Audit log written: ${log.eventType} on ${log.target}`);
     } catch (error) {
         console.error('❌ Failed to write audit log:', error);
-        throw error;
+        // We catch here so the main request doesn't fail just because logging failed
     }
 }
 

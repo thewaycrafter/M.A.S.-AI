@@ -61,6 +61,7 @@ export default function Navigation() {
                         <div className={styles.dropdown}>
                             <button className={styles.navLink}>Admin ▼</button>
                             <div className={styles.dropdownContent}>
+                                <Link href="/admin/scan-history">Scan History</Link>
                                 <Link href="/admin/authorization">Authorization</Link>
                                 <Link href="/admin/audit">Audit Logs</Link>
                             </div>

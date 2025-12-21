@@ -31,6 +31,7 @@ export default function HistoryPage() {
     const [scans, setScans] = useState<ScanHistoryItem[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('');
+    const [downloadingId, setDownloadingId] = useState<string | null>(null);
 
     useEffect(() => {
         if (!isAuthenticated()) {
@@ -56,6 +57,36 @@ export default function HistoryPage() {
             console.error('Failed to load history:', error);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const downloadPdf = async (scanId: string, target: string) => {
+        setDownloadingId(scanId);
+        try {
+            const response = await fetch(`http://localhost:3001/api/reports/${scanId}`, {
+                headers: {
+                    'Authorization': `Bearer ${getToken()}`,
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to generate PDF');
+            }
+
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `MAS-AI-Report-${target.replace(/[^a-zA-Z0-9]/g, '_')}-${new Date().toISOString().split('T')[0]}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error('Failed to download PDF:', error);
+            alert('Failed to download PDF report. Please try again.');
+        } finally {
+            setDownloadingId(null);
         }
     };
 
@@ -151,6 +182,36 @@ export default function HistoryPage() {
                                         💰 ₹{scan.metadata.cost.toFixed(2)}
                                     </span>
                                 </div>
+
+                                {/* Download PDF Button */}
+                                <button
+                                    onClick={() => downloadPdf(scan.scanId, scan.target)}
+                                    disabled={downloadingId === scan.scanId}
+                                    style={{
+                                        width: '100%',
+                                        marginTop: '10px',
+                                        padding: '10px',
+                                        background: downloadingId === scan.scanId
+                                            ? 'rgba(255,255,255,0.1)'
+                                            : 'linear-gradient(135deg, #00ff41, #00e5a0)',
+                                        color: downloadingId === scan.scanId ? '#888' : '#000',
+                                        border: 'none',
+                                        borderRadius: '6px',
+                                        cursor: downloadingId === scan.scanId ? 'wait' : 'pointer',
+                                        fontWeight: 'bold',
+                                        fontFamily: 'monospace',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '8px',
+                                    }}
+                                >
+                                    {downloadingId === scan.scanId ? (
+                                        <>⏳ Generating...</>
+                                    ) : (
+                                        <>📄 Download PDF Report</>
+                                    )}
+                                </button>
                             </div>
                         ))}
                     </div>
