@@ -158,6 +158,7 @@ export default function SignupPage() {
                     <Link href="/">
                         <h1 className={styles.title}>M.A.S. AI</h1>
                     </Link>
+                    <p style={{ color: '#00ff41', fontSize: '0.8rem', letterSpacing: '2px', marginBottom: '5px', textTransform: 'uppercase' }}>Multi-agent Adaptive Security</p>
                     <p className={styles.subtitle}>Join the Security Revolution</p>
                 </div>
 

@@ -62,11 +62,11 @@ const createEmailTemplate = (title: string, content: string, ctaButton?: { text:
                     <tr>
                         <td style="background: linear-gradient(135deg, #1e1e3f 0%, #2a2a4a 100%); padding: 40px 40px 30px; text-align: center; border-bottom: 1px solid rgba(0, 255, 65, 0.2);">
                             <h1 style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: 3px;">
-                                <span style="color: #00ff41;">SINGHAL</span>
+                                <span style="color: #00ff41;">M.A.S.</span>
                                 <span style="color: #ffffff;"> AI</span>
                             </h1>
                             <p style="margin: 8px 0 0; color: #6b7280; font-size: 12px; letter-spacing: 2px; text-transform: uppercase;">
-                                Advanced Security Intelligence
+                                Multi-agent Adaptive Security
                             </p>
                         </td>
                     </tr>
@@ -91,10 +91,10 @@ const createEmailTemplate = (title: string, content: string, ctaButton?: { text:
                                 <tr>
                                     <td style="text-align: center;">
                                         <p style="margin: 0 0 10px; color: #00ff41; font-weight: 600; font-size: 14px;">
-                                            SINGHAL AI
+                                            M.A.S. AI
                                         </p>
                                         <p style="margin: 0 0 15px; color: #6b7280; font-size: 12px;">
-                                            AI-Powered Penetration Testing Platform
+                                            Multi-agent Adaptive Security
                                         </p>
                                         <p style="margin: 0; color: #4b5563; font-size: 11px;">
                                             © ${new Date().getFullYear()} M.A.S. AI. All rights reserved.

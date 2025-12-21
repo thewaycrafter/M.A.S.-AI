@@ -26,7 +26,7 @@ export default function Navigation() {
         return (
             <nav className={styles.nav}>
                 <div className={styles.container}>
-                    <Link href="/" className={styles.logo}>
+                    <Link href="/" className={styles.logo} title="Multi-agent Adaptive Security">
                         <span className={styles.glitch}>M.A.S. AI</span>
                     </Link>
                     <div className={styles.menu}>
@@ -46,7 +46,7 @@ export default function Navigation() {
     return (
         <nav className={styles.nav}>
             <div className={styles.container}>
-                <Link href="/" className={styles.logo}>
+                <Link href="/" className={styles.logo} title="Multi-agent Adaptive Security">
                     <span className={styles.glitch}>M.A.S. AI</span>
                 </Link>
 

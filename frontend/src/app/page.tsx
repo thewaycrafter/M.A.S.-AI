@@ -27,6 +27,7 @@ export default function Home() {
             <h1 className={styles.title}>
               <span className={styles.glitch} data-text="M.A.S. AI">M.A.S. AI</span>
             </h1>
+            <p style={{ color: '#00ff41', fontSize: '1rem', letterSpacing: '3px', margin: '0 0 10px', textTransform: 'uppercase' }}>Multi-agent Adaptive Security</p>
             <p className={styles.tagline}>Defensive-First AI Penetration Testing Engine</p>
           </div>
 
@@ -185,6 +186,7 @@ export default function Home() {
           <div className={styles.footerContent}>
             <div className={styles.footerSection}>
               <h4>M.A.S. AI</h4>
+              <p style={{ fontSize: '0.8rem', color: '#666' }}>Multi-agent Adaptive Security</p>
               <p>AI-Powered Security Testing</p>
             </div>
 
