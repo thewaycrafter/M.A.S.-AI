@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import Link from 'next/link';
 import Link from 'next/link';
 import { isAuthenticated } from '@/utils/auth';
 import Navigation from '../components/Navigation';
@@ -23,7 +23,7 @@ export default function Home() {
         {/* Hero Section */}
         <header className={styles.hero}>
           <div className={styles.logoSection}>
-            <Image src="/logo.png" alt="M.A.S. AI Logo" width={80} height={80} className={styles.logo} />
+            <img src="/logo.png" alt="M.A.S. AI Logo" width={120} height={120} className={styles.logo} />
             <h1 className={styles.title}>
               <span className={styles.glitch} data-text="M.A.S. AI">M.A.S. AI</span>
             </h1>
