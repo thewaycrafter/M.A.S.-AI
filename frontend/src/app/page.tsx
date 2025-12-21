@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Link from 'next/link';
 import { isAuthenticated } from '@/utils/auth';
 import Navigation from '../components/Navigation';
 import styles from './page.module.css';
