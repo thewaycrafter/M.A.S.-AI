@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ThemeProvider } from "../components/ThemeProvider";
 import "../styles/design-system.css";
 import "../styles/globals.css";
 
@@ -15,7 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
