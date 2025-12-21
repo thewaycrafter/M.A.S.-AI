@@ -67,6 +67,16 @@ const userSchema = new mongoose.Schema({
     passwordResetExpires: Date,
 
     // =====================
+    // Email Verification
+    // =====================
+    isEmailVerified: {
+        type: Boolean,
+        default: false,
+    },
+    emailVerificationToken: String,
+    emailVerificationExpires: Date,
+
+    // =====================
     // Subscription Details
     // =====================
     subscription: {
@@ -209,6 +219,28 @@ userSchema.statics.findByResetToken = async function (token: string) {
     return this.findOne({
         passwordResetToken: hashedToken,
         passwordResetExpires: { $gt: Date.now() },
+    });
+};
+
+// Email verification methods
+userSchema.methods.generateEmailVerificationToken = function (): string {
+    const token = crypto.randomBytes(32).toString('hex');
+    this.emailVerificationToken = crypto.createHash('sha256').update(token).digest('hex');
+    this.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    return token;
+};
+
+userSchema.methods.verifyEmail = function () {
+    this.isEmailVerified = true;
+    this.emailVerificationToken = undefined;
+    this.emailVerificationExpires = undefined;
+};
+
+userSchema.statics.findByVerificationToken = async function (token: string) {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    return this.findOne({
+        emailVerificationToken: hashedToken,
+        emailVerificationExpires: { $gt: Date.now() },
     });
 };
 

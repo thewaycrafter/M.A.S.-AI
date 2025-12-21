@@ -22,11 +22,12 @@ router.post('/register', authLimiter, async (req, res) => {
         }
 
         // Create user
-        const user = new User({
+        const user: any = new User({
             username,
             email,
             password,
             role: 'user',
+            isEmailVerified: false,
             subscription: {
                 tier: 'free',
                 status: 'active',
@@ -34,9 +35,11 @@ router.post('/register', authLimiter, async (req, res) => {
             }
         });
 
+        // Generate email verification token
+        const verificationToken = user.generateEmailVerificationToken();
         await user.save();
 
-        // Generate token
+        // Generate JWT token
         const jwtSecret = process.env.JWT_SECRET;
         if (!jwtSecret) {
             console.error('JWT_SECRET is not configured!');
@@ -48,7 +51,51 @@ router.post('/register', authLimiter, async (req, res) => {
             { expiresIn: '24h' }
         );
 
-        // Send welcome email (async, don't wait)
+        // Send verification email (async)
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        const verifyUrl = `${frontendUrl}/auth/verify-email?token=${verificationToken}`;
+
+        try {
+            const { sendEmail } = await import('../../services/email');
+            await sendEmail({
+                to: email,
+                subject: '[M.A.S. AI] Verify Your Email Address',
+                html: `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0f; color: #fff; margin: 0; padding: 20px; }
+                        .container { max-width: 600px; margin: 0 auto; background: #1a1a2e; border-radius: 12px; padding: 30px; border: 1px solid #333; }
+                        .logo { color: #00ff41; font-size: 24px; font-weight: bold; font-family: monospace; }
+                        .btn { display: inline-block; background: linear-gradient(135deg, #00ff41, #00e5a0); color: #000; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 20px 0; }
+                        .footer { color: #888; font-size: 12px; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="logo">M.A.S. AI</div>
+                        <h2>🎉 Welcome to M.A.S. AI!</h2>
+                        <p>Hello ${username},</p>
+                        <p>Thank you for signing up for M.A.S. AI - the Multi-agent Adaptive Security platform.</p>
+                        <p>Please verify your email address by clicking the button below:</p>
+                        <a href="${verifyUrl}" class="btn">✅ Verify Email Address</a>
+                        <p>This link will expire in <strong>24 hours</strong>.</p>
+                        <p>If you didn't create an account with us, please ignore this email.</p>
+                        <div class="footer">
+                            <p>This is an automated message from M.A.S. AI Security Platform.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+                `
+            });
+            console.log(`📧 Verification email sent to ${email}`);
+        } catch (emailError) {
+            console.error('Failed to send verification email:', emailError);
+        }
+
+        // Also send welcome email
         sendWelcomeEmail(email, username).catch(err => console.error('Failed to send welcome email:', err));
 
         res.status(201).json({
@@ -58,8 +105,10 @@ router.post('/register', authLimiter, async (req, res) => {
                 username: user.username,
                 email: user.email,
                 role: user.role,
+                isEmailVerified: user.isEmailVerified,
                 subscription: user.subscription
-            }
+            },
+            message: 'Registration successful! Please check your email to verify your account.'
         });
     } catch (error) {
         console.error('❌ Registration error:', error);
@@ -288,5 +337,103 @@ router.post('/reset-password', passwordResetLimiter, async (req, res) => {
     }
 });
 
-export default router;
+// Verify email with token
+router.get('/verify-email', async (req, res) => {
+    try {
+        const { token } = req.query;
 
+        if (!token || typeof token !== 'string') {
+            return res.status(400).json({ error: 'Verification token is required' });
+        }
+
+        // Find user by verification token
+        const user: any = await (User as any).findByVerificationToken(token);
+
+        if (!user) {
+            return res.status(400).json({ error: 'Invalid or expired verification token' });
+        }
+
+        // Verify the email
+        user.verifyEmail();
+        await user.save();
+
+        console.log(`✅ Email verified for ${user.username}`);
+
+        res.json({
+            message: 'Email verified successfully! You can now use all features.',
+            verified: true
+        });
+    } catch (error) {
+        console.error('Verify email error:', error);
+        res.status(500).json({ error: 'Failed to verify email' });
+    }
+});
+
+// Resend verification email (requires auth)
+router.post('/resend-verification', requireAuth, async (req: AuthRequest, res) => {
+    try {
+        const user: any = await User.findById(req.user?.id);
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        if (user.isEmailVerified) {
+            return res.status(400).json({ error: 'Email is already verified' });
+        }
+
+        // Generate new verification token
+        const verificationToken = user.generateEmailVerificationToken();
+        await user.save();
+
+        // Send verification email
+        const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+        const verifyUrl = `${frontendUrl}/auth/verify-email?token=${verificationToken}`;
+
+        try {
+            const { sendEmail } = await import('../../services/email');
+            await sendEmail({
+                to: user.email,
+                subject: '[M.A.S. AI] Verify Your Email Address',
+                html: `
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <style>
+                        body { font-family: 'Segoe UI', Arial, sans-serif; background: #0a0a0f; color: #fff; margin: 0; padding: 20px; }
+                        .container { max-width: 600px; margin: 0 auto; background: #1a1a2e; border-radius: 12px; padding: 30px; border: 1px solid #333; }
+                        .logo { color: #00ff41; font-size: 24px; font-weight: bold; font-family: monospace; }
+                        .btn { display: inline-block; background: linear-gradient(135deg, #00ff41, #00e5a0); color: #000; padding: 14px 28px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 20px 0; }
+                        .footer { color: #888; font-size: 12px; margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="logo">M.A.S. AI</div>
+                        <h2>📧 Email Verification</h2>
+                        <p>Hello ${user.username},</p>
+                        <p>Please verify your email address by clicking the button below:</p>
+                        <a href="${verifyUrl}" class="btn">✅ Verify Email Address</a>
+                        <p>This link will expire in <strong>24 hours</strong>.</p>
+                        <div class="footer">
+                            <p>This is an automated message from M.A.S. AI Security Platform.</p>
+                        </div>
+                    </div>
+                </body>
+                </html>
+                `
+            });
+            console.log(`📧 Verification email resent to ${user.email}`);
+        } catch (emailError) {
+            console.error('Failed to resend verification email:', emailError);
+            return res.status(500).json({ error: 'Failed to send verification email' });
+        }
+
+        res.json({ message: 'Verification email sent! Please check your inbox.' });
+    } catch (error) {
+        console.error('Resend verification error:', error);
+        res.status(500).json({ error: 'Failed to resend verification email' });
+    }
+});
+
+export default router;
