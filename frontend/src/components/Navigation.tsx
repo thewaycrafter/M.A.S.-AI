@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { getUser, isAuthenticated, logout } from '@/utils/auth';
-import ThemeToggle from './ThemeToggle';
 import styles from './Navigation.module.css';
 
 export default function Navigation() {
@@ -37,7 +36,6 @@ export default function Navigation() {
                         <Link href="/auth/signup" className={`${styles.navLink} ${styles.signupBtn}`}>
                             Sign Up
                         </Link>
-                        <ThemeToggle />
                     </div>
                 </div>
             </nav>
@@ -93,9 +91,6 @@ export default function Navigation() {
                             </button>
                         </div>
                     </div>
-
-                    {/* Theme Toggle */}
-                    <ThemeToggle />
                 </div>
             </div>
         </nav>
