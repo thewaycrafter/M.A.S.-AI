@@ -5,13 +5,13 @@ const scanHistorySchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-        index: true,
+        // Index handled by compound index below
     },
     scanId: {
         type: String,
         required: true,
         unique: true,
-        index: true,
+        // unique: true already creates an index
     },
     target: {
         type: String,

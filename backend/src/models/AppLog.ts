@@ -5,7 +5,7 @@ const appLogSchema = new mongoose.Schema({
         type: String,
         enum: ['debug', 'info', 'warn', 'error', 'critical'],
         required: true,
-        index: true,
+        // Index handled by compound index below
     },
     message: {
         type: String,
@@ -15,7 +15,7 @@ const appLogSchema = new mongoose.Schema({
         type: String,
         enum: ['api', 'scan', 'auth', 'admin', 'payment', 'email', 'websocket', 'system'],
         required: true,
-        index: true,
+        // Index handled by compound index below
     },
 
     // Log Type (error, warn, info)
@@ -23,7 +23,6 @@ const appLogSchema = new mongoose.Schema({
         type: String,
         enum: ['error', 'warn', 'info'],
         required: true,
-        index: true,
     },
 
     // Log Level (Technical, Functional)
@@ -31,13 +30,12 @@ const appLogSchema = new mongoose.Schema({
         type: String,
         enum: ['Technical', 'Functional'],
         required: true,
-        index: true,
     },
 
     // Optional user context (String to support 'system' or user IDs)
     userId: {
         type: String,
-        index: true,
+        // Index handled by compound index below
     },
 
     // Optional scan context
@@ -67,7 +65,7 @@ const appLogSchema = new mongoose.Schema({
     timestamp: {
         type: Date,
         default: Date.now,
-        index: true,
+        // Index handled by TTL and compound indexes below
     },
 
 }, {

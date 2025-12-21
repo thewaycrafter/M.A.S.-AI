@@ -15,7 +15,12 @@ interface UserStats {
     mediumFindings: number;
     lowFindings: number;
     totalCostSaved: number;
-    scanHistory: any[];
+    recentScans: Array<{
+        _id: string;
+        target: string;
+        createdAt: string;
+        results?: { riskScore?: number; critical?: number };
+    }>;
 }
 
 export default function ProfilePage() {
@@ -64,8 +69,15 @@ export default function ProfilePage() {
                     mediumFindings: breakdown.medium,
                     lowFindings: breakdown.low,
                     totalCostSaved: lifetime.costSaved,
-                    scanHistory: [],
+                    recentScans: [],
                 });
+
+                // Fetch recent scans for activity
+                const historyRes = await fetch('http://localhost:3001/api/scan-history/history', { headers });
+                if (historyRes.ok) {
+                    const historyData = await historyRes.json();
+                    setStats(prev => prev ? { ...prev, recentScans: historyData.scans?.slice(0, 5) || [] } : null);
+                }
             } else {
                 throw new Error('Failed to fetch analytics');
             }
@@ -81,7 +93,7 @@ export default function ProfilePage() {
                 mediumFindings: 0,
                 lowFindings: 0,
                 totalCostSaved: 0,
-                scanHistory: [],
+                recentScans: [],
             });
         } finally {
             setLoading(false);
@@ -97,8 +109,9 @@ export default function ProfilePage() {
         );
     }
 
-    const scanLimitInfo = user.role === 'free'
-        ? `${stats?.scansThisMonth}/3 scans used this month`
+    const subscriptionTier = user.subscription?.tier || 'free';
+    const scanLimitInfo = subscriptionTier === 'free'
+        ? `${stats?.scansThisMonth || 0}/3 scans used this month`
         : 'Unlimited scans';
 
     return (
@@ -218,7 +231,7 @@ export default function ProfilePage() {
                         <div className={styles.infoRow}>
                             <span className={styles.infoLabel}>Data Retention</span>
                             <span className={styles.infoValue}>
-                                {user.role === 'free' ? 'Last 30 days' : user.role === 'pro' ? '12 months' : 'Unlimited'}
+                                {subscriptionTier === 'free' ? 'Last 30 days' : subscriptionTier === 'pro' ? '12 months' : 'Unlimited'}
                             </span>
                         </div>
                     </div>
@@ -230,32 +243,32 @@ export default function ProfilePage() {
                         <span className={styles.glitch}>RECENT ACTIVITY</span>
                     </h2>
                     <div className={styles.activityList}>
-                        <div className={styles.activityItem}>
-                            <div className={styles.activityIcon}>🔍</div>
-                            <div className={styles.activityDetails}>
-                                <div className={styles.activityTitle}>Scan completed on example.com</div>
-                                <div className={styles.activityTime}>2 hours ago</div>
+                        {stats?.recentScans && stats.recentScans.length > 0 ? (
+                            stats.recentScans.map((scan) => (
+                                <div key={scan._id} className={styles.activityItem}>
+                                    <div className={styles.activityIcon}>🔍</div>
+                                    <div className={styles.activityDetails}>
+                                        <div className={styles.activityTitle}>Scan completed on {scan.target}</div>
+                                        <div className={styles.activityTime}>
+                                            {new Date(scan.createdAt).toLocaleDateString()} at {new Date(scan.createdAt).toLocaleTimeString()}
+                                        </div>
+                                    </div>
+                                    <div className={styles.activityAction}>
+                                        <button onClick={() => router.push('/history')} className={styles.viewBtn}>
+                                            View Report
+                                        </button>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className={styles.activityItem}>
+                                <div className={styles.activityIcon}>📭</div>
+                                <div className={styles.activityDetails}>
+                                    <div className={styles.activityTitle}>No recent scans</div>
+                                    <div className={styles.activityTime}>Start a scan to see activity here</div>
+                                </div>
                             </div>
-                            <div className={styles.activityAction}>
-                                <button onClick={() => router.push('/history')} className={styles.viewBtn}>
-                                    View Report
-                                </button>
-                            </div>
-                        </div>
-                        <div className={styles.activityItem}>
-                            <div className={styles.activityIcon}>✅</div>
-                            <div className={styles.activityDetails}>
-                                <div className={styles.activityTitle}>Fixed 3 critical vulnerabilities</div>
-                                <div className={styles.activityTime}>1 day ago</div>
-                            </div>
-                        </div>
-                        <div className={styles.activityItem}>
-                            <div className={styles.activityIcon}>📊</div>
-                            <div className={styles.activityDetails}>
-                                <div className={styles.activityTitle}>Generated security report</div>
-                                <div className={styles.activityTime}>3 days ago</div>
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
 

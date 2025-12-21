@@ -116,6 +116,10 @@ export default function LoginPage() {
                         ← Back to Home
                     </Link>
                     {' | '}
+                    <Link href="/auth/reset-password" className={styles.link}>
+                        Forgot Password?
+                    </Link>
+                    <br />
                     Don't have an account?{' '}
                     <Link href="/auth/signup" className={styles.link}>
                         Create Account
