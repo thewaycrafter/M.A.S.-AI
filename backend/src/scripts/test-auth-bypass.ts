@@ -41,7 +41,7 @@ async function verifyAuthBlocking() {
             body: JSON.stringify({ target })
         });
 
-        const data = await response.json();
+        const data: any = await response.json();
 
         console.log(`Response Status: ${response.status}`);
         // console.log('Response Body:', data);
