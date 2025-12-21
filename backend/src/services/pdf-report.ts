@@ -67,11 +67,16 @@ export class PDFReportGenerator {
                 this.createCoverPage(report);
                 this.doc.addPage();
                 this.createExecutiveSummary(report);
-                this.doc.addPage();
+                // Only add page if we're low on space
+                if (this.doc.y > 600) this.doc.addPage();
                 this.createRiskDashboard(report);
-                this.doc.addPage();
-                this.createFindings(report);
-                this.doc.addPage();
+                // Smart page break for findings
+                if (report.vulnerabilities && report.vulnerabilities.length > 0) {
+                    this.doc.addPage();
+                    this.createFindings(report);
+                }
+                // Smart page break for recommendations
+                if (this.doc.y > 500) this.doc.addPage();
                 this.createRecommendations(report);
                 this.addPageNumbers();
                 this.doc.end();
@@ -204,7 +209,7 @@ export class PDFReportGenerator {
                 { align: 'justify', lineGap: 4 }
             );
 
-        this.doc.moveDown(2);
+        this.doc.moveDown(1);
 
         // Scan details in premium cards
         const details = [
@@ -654,7 +659,7 @@ export class PDFReportGenerator {
             .lineWidth(3)
             .stroke();
 
-        this.doc.moveDown(2);
+        this.doc.moveDown(1);
     }
 
     private addSubtitle(title: string) {
