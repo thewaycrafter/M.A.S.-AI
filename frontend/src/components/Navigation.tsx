@@ -27,7 +27,7 @@ export default function Navigation() {
             <nav className={styles.nav}>
                 <div className={styles.container}>
                     <Link href="/" className={styles.logo}>
-                        <span className={styles.glitch}>SINGHAL AI</span>
+                        <span className={styles.glitch}>M.A.S. AI</span>
                     </Link>
                     <div className={styles.menu}>
                         <Link href="/pricing" className={styles.navLink}>Pricing</Link>
@@ -47,7 +47,7 @@ export default function Navigation() {
         <nav className={styles.nav}>
             <div className={styles.container}>
                 <Link href="/" className={styles.logo}>
-                    <span className={styles.glitch}>SINGHAL AI</span>
+                    <span className={styles.glitch}>M.A.S. AI</span>
                 </Link>
 
                 <div className={styles.menu}>

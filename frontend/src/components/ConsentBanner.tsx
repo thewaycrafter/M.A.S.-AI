@@ -13,7 +13,7 @@ export default function ConsentBanner({ onAccept }: ConsentBannerProps) {
 
     useEffect(() => {
         // Check if user has already consented
-        const hasConsented = localStorage.getItem('singhal_consent');
+        const hasConsented = localStorage.getItem('mas_ai_consent');
         if (!hasConsented) {
             setShowBanner(true);
         }
@@ -25,7 +25,7 @@ export default function ConsentBanner({ onAccept }: ConsentBannerProps) {
             version: '1.0',
             accepted: true,
         };
-        localStorage.setItem('singhal_consent', JSON.stringify(consentData));
+        localStorage.setItem('mas_ai_consent', JSON.stringify(consentData));
         setShowBanner(false);
         onAccept?.();
     };

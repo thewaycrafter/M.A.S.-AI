@@ -25,7 +25,7 @@ export default function Home() {
           <div className={styles.logoSection}>
             <Image src="/logo.png" alt="M.A.S. AI Logo" width={80} height={80} className={styles.logo} />
             <h1 className={styles.title}>
-              <span className={styles.glitch} data-text="SINGHAL AI">SINGHAL AI</span>
+              <span className={styles.glitch} data-text="M.A.S. AI">M.A.S. AI</span>
             </h1>
             <p className={styles.tagline}>Defensive-First AI Penetration Testing Engine</p>
           </div>
@@ -184,7 +184,7 @@ export default function Home() {
         <footer className={styles.footer}>
           <div className={styles.footerContent}>
             <div className={styles.footerSection}>
-              <h4>SINGHAL AI</h4>
+              <h4>M.A.S. AI</h4>
               <p>AI-Powered Security Testing</p>
             </div>
 

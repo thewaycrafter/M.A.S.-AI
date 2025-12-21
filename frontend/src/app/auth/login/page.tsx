@@ -61,7 +61,7 @@ export default function LoginPage() {
                 <div className={styles.header}>
                     <div className={styles.terminalPrompt}>root@mas-ai:~#</div>
                     <Link href="/">
-                        <h1 className={styles.title}>SINGHAL AI</h1>
+                        <h1 className={styles.title}>M.A.S. AI</h1>
                     </Link>
                     <p className={styles.subtitle}>Defensive-First AI Penetration Testing</p>
                 </div>

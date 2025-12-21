@@ -34,7 +34,7 @@ export default function Dashboard() {
         setUser(currentUser);
 
         // Show tour on first login (check local storage to be sure)
-        const hasSeenTour = localStorage.getItem('singhal_tour_seen');
+        const hasSeenTour = localStorage.getItem('mas_ai_tour_seen');
         if (currentUser && !hasSeenTour) {
             // Also check backend status if available, but trust local storage for "first login" feel
             setTimeout(() => setRunTour(true), 1000);
@@ -43,7 +43,7 @@ export default function Dashboard() {
 
     const handleTourComplete = async () => {
         setRunTour(false);
-        localStorage.setItem('singhal_tour_seen', 'true');
+        localStorage.setItem('mas_ai_tour_seen', 'true');
 
         // Mark tour as completed in backend as well
         try {

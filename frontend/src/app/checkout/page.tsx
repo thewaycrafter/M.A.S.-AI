@@ -132,7 +132,7 @@ export default function CheckoutPage() {
 
                 <div className={styles.planPreview}>
                     <div className={styles.planName}>
-                        <span>SINGHAL {tier.toUpperCase()}</span>
+                        <span>M.A.S. AI {tier.toUpperCase()}</span>
                         <span className={styles.planPrice}>₹2,999</span>
                     </div>
                     <ul className={styles.features}>
