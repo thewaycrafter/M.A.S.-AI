@@ -23,9 +23,9 @@ export default function Home() {
         {/* Hero Section */}
         <header className={styles.hero}>
           <div className={styles.logoSection}>
-            <Image src="/logo.png" alt="Aegis AI Logo" width={80} height={80} className={styles.logo} />
+            <Image src="/logo.png" alt="Singhal AI Logo" width={80} height={80} className={styles.logo} />
             <h1 className={styles.title}>
-              <span className={styles.glitch} data-text="AEGIS AI">AEGIS AI</span>
+              <span className={styles.glitch} data-text="SINGHAL AI">SINGHAL AI</span>
             </h1>
             <p className={styles.tagline}>Defensive-First AI Penetration Testing Engine</p>
           </div>
@@ -184,7 +184,7 @@ export default function Home() {
         <footer className={styles.footer}>
           <div className={styles.footerContent}>
             <div className={styles.footerSection}>
-              <h4>AEGIS AI</h4>
+              <h4>SINGHAL AI</h4>
               <p>AI-Powered Security Testing</p>
             </div>
 
@@ -203,7 +203,7 @@ export default function Home() {
           </div>
 
           <div className={styles.footerBottom}>
-            <p>© 2024 Aegis AI. All rights reserved.</p>
+            <p>© ${new Date().getFullYear()} Singhal AI. All rights reserved.</p>
           </div>
         </footer>
       </div>

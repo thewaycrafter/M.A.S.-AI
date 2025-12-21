@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
             username,
             email,
             password,
-            role: 'free',
+            role: 'user',
             subscription: {
                 tier: 'free',
                 status: 'active',
@@ -56,6 +56,7 @@ router.post('/register', async (req, res) => {
             }
         });
     } catch (error) {
+        console.error('❌ Registration error:', error);
         res.status(500).json({ error: 'Registration failed' });
     }
 });

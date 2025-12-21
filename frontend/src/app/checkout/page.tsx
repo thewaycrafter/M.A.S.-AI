@@ -67,7 +67,7 @@ export default function CheckoutPage() {
                 key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_dummy', // Replace with logic to get key if needed from backend
                 amount: order.amount,
                 currency: order.currency,
-                name: 'Aegis AI',
+                name: 'Singhal AI',
                 description: `Upgrade to ${tier.toUpperCase()}`,
                 order_id: order.id,
                 handler: async function (response: any) {
@@ -132,7 +132,7 @@ export default function CheckoutPage() {
 
                 <div className={styles.planPreview}>
                     <div className={styles.planName}>
-                        <span>AEGIS {tier.toUpperCase()}</span>
+                        <span>SINGHAL {tier.toUpperCase()}</span>
                         <span className={styles.planPrice}>₹2,999</span>
                     </div>
                     <ul className={styles.features}>

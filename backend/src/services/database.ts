@@ -154,13 +154,36 @@ const scanResultSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: Date.now },
 });
 
-export const ScanResult = mongoose.model('ScanResult', scanResultSchema);
+// Check if model already exists (prevents OverwriteModelError)
+export const ScanResult = mongoose.models.ScanResult || mongoose.model('ScanResult', scanResultSchema);
 
 /**
  * Audit Log Interface
  */
 export interface AuditLog {
-    eventType: 'scan_start' | 'scan_complete' | 'scan_abort' | 'kill_switch' | 'export' | 'access' | 'authorization_check' | 'killswitch_activated' | 'killswitch_deactivated';
+    eventType:
+    | 'scan_start'
+    | 'scan_complete'
+    | 'scan_abort'
+    | 'kill_switch'
+    | 'export'
+    | 'access'
+    | 'authorization_check'
+    | 'killswitch_activated'
+    | 'killswitch_deactivated'
+    // Authorization events
+    | 'authorization_request'
+    | 'authorization_user_approved'
+    | 'authorization_user_denied'
+    | 'authorization_admin_approved'
+    | 'authorization_admin_denied'
+    // Admin events
+    | 'admin_create_user'
+    | 'admin_delete_user'
+    | 'admin_block_user'
+    | 'admin_unblock_user'
+    | 'admin_reset_password'
+    | 'admin_send_reset_link';
     userId?: string;
     target: string;
     action: string;

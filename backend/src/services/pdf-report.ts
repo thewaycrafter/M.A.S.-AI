@@ -49,8 +49,8 @@ export class PDFReportGenerator {
             margins: { top: 50, bottom: 50, left: 50, right: 50 },
             bufferPages: true,
             info: {
-                Title: 'Aegis AI Security Assessment Report',
-                Author: 'Aegis AI',
+                Title: 'Singhal AI Security Assessment Report',
+                Author: 'Singhal AI',
                 Subject: 'Vulnerability Scan Report',
             }
         });
@@ -99,7 +99,7 @@ export class PDFReportGenerator {
             .fontSize(56)
             .fillColor(this.colors.white)
             .font('Helvetica-Bold')
-            .text('AEGIS', 60, 100, { characterSpacing: 4 });
+            .text('SINGHAL', 60, 100, { characterSpacing: 4 });
 
         this.doc
             .fontSize(56)
@@ -200,7 +200,7 @@ export class PDFReportGenerator {
             .fillColor(this.colors.text)
             .font('Helvetica')
             .text(
-                `This comprehensive security assessment was conducted on ${report.target} using Aegis AI's advanced vulnerability scanning platform. Our AI-powered analysis evaluated ${report.coverage.totalCategories} security domains and identified ${report.findings.total} findings requiring attention.`,
+                `This comprehensive security assessment was conducted on ${report.target} using Singhal AI's advanced vulnerability scanning platform. Our AI-powered analysis evaluated ${report.coverage.totalCategories} security domains and identified ${report.findings.total} findings requiring attention.`,
                 { align: 'justify', lineGap: 4 }
             );
 
@@ -459,52 +459,184 @@ export class PDFReportGenerator {
     }
 
     private createRecommendations(report: ScanReport) {
-        this.addSectionTitle('Security Recommendations');
+        this.addSectionTitle('Remediation Guide');
 
-        const recommendations = [
-            { priority: 'IMMEDIATE', text: 'Implement parameterized queries for all database operations', icon: '🔴' },
-            { priority: 'HIGH', text: 'Enable Content Security Policy (CSP) headers', icon: '🟠' },
-            { priority: 'HIGH', text: 'Add CSRF token validation to state-changing requests', icon: '🟠' },
-            { priority: 'MEDIUM', text: 'Implement comprehensive input validation', icon: '🟡' },
-            { priority: 'MEDIUM', text: 'Enforce HTTPS for all communications', icon: '🟡' },
-        ];
+        // Generate dynamic recommendations from vulnerabilities
+        const remediationGuides: Array<{
+            title: string;
+            severity: string;
+            steps: string[];
+            codeExample?: string;
+        }> = [];
 
-        recommendations.forEach((rec, i) => {
-            if (this.doc.y > 680) this.doc.addPage();
+        // Add recommendations based on actual vulnerabilities
+        if (report.vulnerabilities && report.vulnerabilities.length > 0) {
+            report.vulnerabilities.slice(0, 5).forEach((vuln: any) => {
+                const guide = this.generateRemediationGuide(vuln);
+                if (guide) remediationGuides.push(guide);
+            });
+        }
+
+        // Fallback to generic recommendations if no vulnerabilities
+        if (remediationGuides.length === 0) {
+            remediationGuides.push(
+                {
+                    title: 'Implement Input Validation',
+                    severity: 'high',
+                    steps: [
+                        'Validate all user inputs on both client and server side',
+                        'Use allowlists for expected input formats',
+                        'Sanitize inputs to prevent injection attacks',
+                        'Implement length limits on all input fields',
+                    ],
+                },
+                {
+                    title: 'Enable Security Headers',
+                    severity: 'medium',
+                    steps: [
+                        'Add Content-Security-Policy header to prevent XSS',
+                        'Enable X-Content-Type-Options: nosniff',
+                        'Set X-Frame-Options to DENY or SAMEORIGIN',
+                        'Add Strict-Transport-Security header for HTTPS',
+                    ],
+                }
+            );
+        }
+
+        remediationGuides.forEach((guide, i) => {
+            if (this.doc.y > 600) this.doc.addPage();
 
             const y = this.doc.y;
-            this.doc.rect(60, y, 475, 50).fill(i % 2 === 0 ? '#F7FAFC' : '#FFFFFF');
+            const severityColor = this.getSeverityColor(guide.severity);
 
-            // Icon
+            // Guide header
             this.doc
-                .fontSize(20)
-                .text(rec.icon, 70, y + 12);
-
-            // Priority badge
-            const priorityColor = rec.priority === 'IMMEDIATE' ? this.colors.critical :
-                rec.priority === 'HIGH' ? this.colors.high : this.colors.medium;
+                .roundedRect(60, y, 475, 28, 4)
+                .fill(severityColor)
+                .fillOpacity(0.15);
 
             this.doc
-                .roundedRect(100, y + 10, 75, 18, 9)
-                .fill(priorityColor)
-                .fillOpacity(0.2);
-
-            this.doc
-                .fontSize(9)
-                .fillColor(priorityColor)
+                .fontSize(12)
+                .fillColor(this.colors.text)
                 .font('Helvetica-Bold')
                 .fillOpacity(1)
-                .text(rec.priority, 100, y + 14, { width: 75, align: 'center' });
+                .text(`${i + 1}. ${guide.title}`, 70, y + 8, { width: 400 });
 
-            // Recommendation text
+            // Severity badge
             this.doc
-                .fontSize(10)
-                .fillColor(this.colors.text)
-                .font('Helvetica')
-                .text(rec.text, 185, y + 15, { width: 340 });
+                .fontSize(9)
+                .fillColor(severityColor)
+                .font('Helvetica-Bold')
+                .text(guide.severity.toUpperCase(), 480, y + 10, { width: 50, align: 'right' });
 
-            this.doc.y = y + 50;
+            this.doc.y = y + 35;
+
+            // Steps
+            guide.steps.forEach((step, stepIndex) => {
+                if (this.doc.y > 720) this.doc.addPage();
+
+                this.doc
+                    .fontSize(10)
+                    .fillColor(this.colors.primary)
+                    .font('Helvetica-Bold')
+                    .text(`Step ${stepIndex + 1}:`, 70, this.doc.y)
+                    .fillColor(this.colors.text)
+                    .font('Helvetica')
+                    .text(step, 120, this.doc.y - 10, { width: 400 });
+
+                this.doc.moveDown(0.6);
+            });
+
+            // Code example if available
+            if (guide.codeExample) {
+                this.doc
+                    .rect(70, this.doc.y, 455, 50)
+                    .fill('#1E293B');
+
+                this.doc
+                    .fontSize(9)
+                    .fillColor('#00E5A0')
+                    .font('Courier')
+                    .text(guide.codeExample, 80, this.doc.y - 45, { width: 435 });
+
+                this.doc.y += 10;
+            }
+
+            this.doc.moveDown(1.5);
         });
+    }
+
+    private generateRemediationGuide(vuln: any): any {
+        const type = (vuln.type || vuln.name || '').toLowerCase();
+
+        if (type.includes('sql') || type.includes('injection')) {
+            return {
+                title: `Fix: ${vuln.type || 'SQL Injection'} in ${vuln.endpoint || 'endpoint'}`,
+                severity: vuln.severity || 'critical',
+                steps: [
+                    'Use parameterized queries or prepared statements',
+                    'Never concatenate user input directly into SQL queries',
+                    'Implement ORM/query builders with built-in escaping',
+                    'Validate and sanitize all user inputs',
+                    'Apply principle of least privilege to database accounts',
+                ],
+                codeExample: `// Instead of: query = "SELECT * FROM users WHERE id=" + userId
+// Use: db.query("SELECT * FROM users WHERE id = $1", [userId])`,
+            };
+        }
+
+        if (type.includes('xss') || type.includes('cross-site')) {
+            return {
+                title: `Fix: ${vuln.type || 'XSS'} in ${vuln.endpoint || 'endpoint'}`,
+                severity: vuln.severity || 'high',
+                steps: [
+                    'Encode all user-generated content before rendering',
+                    'Use Content-Security-Policy headers',
+                    'Implement context-aware output encoding',
+                    'Use HttpOnly and Secure flags on cookies',
+                ],
+                codeExample: `// Use: escape(userInput) or sanitizeHtml(userInput)
+// Never: innerHTML = userInput`,
+            };
+        }
+
+        if (type.includes('csrf')) {
+            return {
+                title: `Fix: ${vuln.type || 'CSRF'} Vulnerability`,
+                severity: vuln.severity || 'high',
+                steps: [
+                    'Implement anti-CSRF tokens on all state-changing forms',
+                    'Validate tokens on the server for every request',
+                    'Use SameSite cookie attribute',
+                    'Verify Origin and Referer headers',
+                ],
+            };
+        }
+
+        if (type.includes('auth')) {
+            return {
+                title: `Fix: ${vuln.type || 'Authentication Issue'}`,
+                severity: vuln.severity || 'high',
+                steps: [
+                    'Implement strong password policies',
+                    'Use secure session management',
+                    'Add multi-factor authentication',
+                    'Implement account lockout after failed attempts',
+                ],
+            };
+        }
+
+        // Generic remediation for unknown types
+        return {
+            title: `Fix: ${vuln.type || 'Security Issue'} in ${vuln.endpoint || 'application'}`,
+            severity: vuln.severity || 'medium',
+            steps: [
+                'Review the affected code for security issues',
+                'Apply the principle of least privilege',
+                'Implement proper input validation',
+                'Add logging and monitoring for this endpoint',
+            ],
+        };
     }
 
     private addSectionTitle(title: string) {
@@ -570,7 +702,7 @@ export class PDFReportGenerator {
                     .fontSize(9)
                     .fillColor(this.colors.textLight)
                     .font('Helvetica')
-                    .text('Aegis AI Security Report', 60, 778)
+                    .text('Singhal AI Security Report', 60, 778)
                     .text(`Page ${i + 1} of ${range.count}`, 450, 778, { width: 85, align: 'right' });
             }
         }

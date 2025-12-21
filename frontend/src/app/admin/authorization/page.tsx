@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { isAuthenticated, getUser, getToken } from '@/utils/auth';
 import Navigation from '@/components/Navigation';
@@ -8,12 +8,10 @@ import styles from '../admin.module.css';
 
 export default function AuthorizationPage() {
     const router = useRouter();
-    const [targets, setTargets] = useState<string[]>([]);
+    const [pendingRequests, setPendingRequests] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [validating, setValidating] = useState(false);
-    const [testTarget, setTestTarget] = useState('');
-    const [validationResult, setValidationResult] = useState<any>(null);
+    const [actionLoading, setActionLoading] = useState<string | null>(null);
 
     useEffect(() => {
         // Check admin access
@@ -23,50 +21,66 @@ export default function AuthorizationPage() {
             return;
         }
 
-        fetchTargets();
+        fetchPendingRequests();
     }, [router]);
 
-    const fetchTargets = async () => {
+    const fetchPendingRequests = async () => {
         try {
             const token = getToken();
-            const response = await fetch('http://localhost:3001/api/authorization/targets', {
+            const response = await fetch('http://localhost:3001/api/authorization/pending', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             const data = await response.json();
-            setTargets(data.targets || []);
-            setLoading(false);
+
+            if (response.ok) {
+                setPendingRequests(data.authorizations || []);
+            } else {
+                setError('Failed to fetch pending requests');
+            }
         } catch (err) {
-            console.error('Failed to fetch targets:', err);
-            setError('Failed to load authorized targets');
+            console.error('Failed to fetch requests:', err);
+            setError('Failed to load authorization requests');
+        } finally {
             setLoading(false);
         }
     };
 
-    const handleValidate = async (e: FormEvent) => {
-        e.preventDefault();
-        setValidating(true);
-        setValidationResult(null);
+    const handleAction = async (id: string, action: 'approve' | 'deny') => {
+        setActionLoading(id);
 
         try {
             const token = getToken();
-            const response = await fetch('http://localhost:3001/api/authorization/validate', {
+            const endpoint = action === 'approve'
+                ? `http://localhost:3001/api/authorization/admin-approve/${id}`
+                : `http://localhost:3001/api/authorization/admin-deny/${id}`;
+
+            const body = action === 'deny' ? { reason: 'Denied by admin' } : {};
+
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ target: testTarget })
+                body: JSON.stringify(body)
             });
-            const data = await response.json();
-            setValidationResult(data);
-        } catch (err) {
-            console.error('Validation error:', err);
+
+            if (response.ok) {
+                // Remove from list
+                setPendingRequests(prev => prev.filter(req => req._id !== id));
+                alert(`Authorization ${action}d successfully`);
+            } else {
+                alert(`Failed to ${action} authorization`);
+            }
+        } catch (error) {
+            console.error(`Error ${action}ing request:`, error);
+            alert(`An error occurred`);
         } finally {
-            setValidating(false);
+            setActionLoading(null);
         }
     };
 
-    if (loading) return <div className={styles.loading}>Loading authorization configuration...</div>;
+    if (loading) return <div className={styles.loading}>Loading authorization requests...</div>;
 
     return (
         <div>
@@ -74,58 +88,70 @@ export default function AuthorizationPage() {
             <div className={styles.container}>
                 <div className={styles.header}>
                     <h1 className={styles.title}>Authorization Management</h1>
-                    <p className={styles.subtitle}>Manage authorized scanning targets and rules</p>
+                    <p className={styles.subtitle}>Review and approve pending authorization requests</p>
                 </div>
 
                 <div className={styles.card}>
-                    <h2>Authorized Targets (Whitelist)</h2>
-                    <p className={styles.subtitle} style={{ marginBottom: '1rem' }}>
-                        Targets configured in environment variables (AUTHORIZED_TARGETS)
-                    </p>
+                    <h2>Pending Approvals</h2>
 
-                    {targets.length > 0 ? (
-                        <div className={styles.codeBlock}>
-                            {targets.map((target, index) => (
-                                <div key={index}>{target}</div>
-                            ))}
+                    {error && <div className={styles.error}>{error}</div>}
+
+                    {pendingRequests.length === 0 ? (
+                        <div className={styles.emptyState}>
+                            <p>No pending authorization requests.</p>
                         </div>
                     ) : (
-                        <div className={styles.codeBlock} style={{ color: '#888' }}>
-                            No specific targets whitelisted (Open Authorization or Env Var missing)
-                        </div>
-                    )}
-                </div>
-
-                <div className={styles.card}>
-                    <h2>Test Authorization Rules</h2>
-                    <form onSubmit={handleValidate} style={{ marginTop: '1rem' }}>
-                        <input
-                            type="text"
-                            value={testTarget}
-                            onChange={(e) => setTestTarget(e.target.value)}
-                            className={styles.search}
-                            placeholder="Enter domain to test (e.g. example.com)"
-                            style={{ width: '400px', marginRight: '1rem' }}
-                        />
-                        <button type="submit" className={styles.actionBtn} disabled={validating}>
-                            {validating ? 'Validating...' : 'Check Permission'}
-                        </button>
-                    </form>
-
-                    {validationResult && (
-                        <div style={{
-                            marginTop: '1rem', padding: '1rem',
-                            background: validationResult.authorized ? 'rgba(0, 255, 65, 0.1)' : 'rgba(255, 0, 0, 0.1)',
-                            border: `1px solid ${validationResult.authorized ? '#00ff41' : '#ff0000'}`,
-                            borderRadius: '4px'
-                        }}>
-                            <strong>Status: </strong>
-                            {validationResult.authorized ? '✅ AUTHORIZED' : '❌ BLOCKED'}
-                            {!validationResult.authorized && validationResult.reason && (
-                                <div style={{ marginTop: '0.5rem', fontSize: '0.9rem' }}>
-                                    Reason: {validationResult.reason}
-                                </div>
-                            )}
+                        <div className={styles.tableResponsive}>
+                            <table className={styles.table}>
+                                <thead>
+                                    <tr>
+                                        <th>Target</th>
+                                        <th>Requester</th>
+                                        <th>Dates</th>
+                                        <th>User Approval</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {pendingRequests.map((req) => (
+                                        <tr key={req._id}>
+                                            <td className={styles.targetCell}>
+                                                <strong>{req.target}</strong>
+                                            </td>
+                                            <td>
+                                                <div>{req.requesterId?.username || 'Unknown'}</div>
+                                                <div className={styles.email}>{req.requesterId?.email}</div>
+                                            </td>
+                                            <td>
+                                                <div>From: {new Date(req.startDate).toLocaleDateString()}</div>
+                                                <div>To: {new Date(req.endDate).toLocaleDateString()}</div>
+                                            </td>
+                                            <td>
+                                                <span className={`${styles.badge} ${styles.badgeSuccess}`}>
+                                                    Verified
+                                                </span>
+                                                <div className={styles.emailSmall}>{req.approverEmail}</div>
+                                            </td>
+                                            <td className={styles.actionsCell}>
+                                                <button
+                                                    className={`${styles.btn} ${styles.btnApprove}`}
+                                                    onClick={() => handleAction(req._id, 'approve')}
+                                                    disabled={actionLoading === req._id}
+                                                >
+                                                    {actionLoading === req._id ? '...' : 'Approve'}
+                                                </button>
+                                                <button
+                                                    className={`${styles.btn} ${styles.btnDeny}`}
+                                                    onClick={() => handleAction(req._id, 'deny')}
+                                                    disabled={actionLoading === req._id}
+                                                >
+                                                    {actionLoading === req._id ? '...' : 'Deny'}
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     )}
                 </div>

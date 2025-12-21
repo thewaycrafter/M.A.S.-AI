@@ -59,9 +59,9 @@ export default function LoginPage() {
         <div className={styles.container}>
             <div className={styles.formCard}>
                 <div className={styles.header}>
-                    <div className={styles.terminalPrompt}>root@aegis-ai:~#</div>
+                    <div className={styles.terminalPrompt}>root@singhal-ai:~#</div>
                     <Link href="/">
-                        <h1 className={styles.title}>AEGIS AI</h1>
+                        <h1 className={styles.title}>SINGHAL AI</h1>
                     </Link>
                     <p className={styles.subtitle}>Defensive-First AI Penetration Testing</p>
                 </div>

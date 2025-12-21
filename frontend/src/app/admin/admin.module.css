@@ -179,3 +179,78 @@
     color: #666;
     margin-bottom: 0.5rem;
 }
+
+/* Authorization UI Styles */
+.tableResponsive {
+    overflow-x: auto;
+}
+
+.targetCell {
+    color: #00ff41;
+}
+
+.email {
+    font-size: 0.85rem;
+    color: #aaa;
+}
+
+.emailSmall {
+    font-size: 0.75rem;
+    color: #666;
+}
+
+.badgeSuccess {
+    background: rgba(0, 255, 65, 0.1);
+    color: #00ff41;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+}
+
+.actionsCell {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.btnApprove {
+    background: rgba(0, 255, 65, 0.1);
+    color: #00ff41;
+    border-color: rgba(0, 255, 65, 0.3);
+}
+
+.btnApprove:hover {
+    background: rgba(0, 255, 65, 0.2);
+}
+
+.btnDeny {
+    background: rgba(255, 50, 50, 0.1);
+    color: #ff3333;
+    border-color: rgba(255, 50, 50, 0.3);
+}
+
+.btnDeny:hover {
+    background: rgba(255, 50, 50, 0.2);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    color: #666;
+    font-style: italic;
+}
+
+.error {
+    background: rgba(255, 50, 50, 0.1);
+    color: #ff3333;
+    padding: 1rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 50, 50, 0.3);
+}

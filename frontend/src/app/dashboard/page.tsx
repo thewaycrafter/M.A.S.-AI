@@ -34,7 +34,7 @@ export default function Dashboard() {
         setUser(currentUser);
 
         // Show tour on first login (check local storage to be sure)
-        const hasSeenTour = localStorage.getItem('aegis_tour_seen');
+        const hasSeenTour = localStorage.getItem('singhal_tour_seen');
         if (currentUser && !hasSeenTour) {
             // Also check backend status if available, but trust local storage for "first login" feel
             setTimeout(() => setRunTour(true), 1000);
@@ -43,7 +43,7 @@ export default function Dashboard() {
 
     const handleTourComplete = async () => {
         setRunTour(false);
-        localStorage.setItem('aegis_tour_seen', 'true');
+        localStorage.setItem('singhal_tour_seen', 'true');
 
         // Mark tour as completed in backend as well
         try {
@@ -138,6 +138,13 @@ export default function Dashboard() {
             const data = await response.json();
 
             if (!response.ok) {
+                if (response.status === 403 && data.requiresAuthorization) {
+                    alert(`⛔ ${data.message}`);
+                    setAuthTarget(target);
+                    setShowTargetInput(false);
+                    setShowAuthModal(true);
+                    return;
+                }
                 throw new Error(data.message || data.error || 'Scan failed');
             }
 
@@ -293,7 +300,7 @@ export default function Dashboard() {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `aegis-report-${Date.now()}.pdf`;
+            link.download = `singhal-ai-report-${Date.now()}.pdf`;
             link.click();
             URL.revokeObjectURL(url);
 
@@ -302,6 +309,80 @@ export default function Dashboard() {
             console.error('Error downloading PDF:', error);
             alert('Failed to generate PDF report. Make sure the backend is running.');
         }
+    };
+
+    // Authorization State
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [authTarget, setAuthTarget] = useState('');
+    const [authApproverEmail, setAuthApproverEmail] = useState('');
+    const [authStartDate, setAuthStartDate] = useState(new Date().toISOString().split('T')[0]);
+    const [authEndDate, setAuthEndDate] = useState(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+    const [authSubmitting, setAuthSubmitting] = useState(false);
+
+    const checkAuthorization = async (targetToCheck: string) => {
+        if (!targetToCheck) return;
+        try {
+            const response = await fetch(`http://localhost:3001/api/authorization/check/${encodeURIComponent(targetToCheck)}`, {
+                headers: { 'Authorization': `Bearer ${getToken()}` }
+            });
+            const data = await response.json();
+
+            if (response.ok) {
+                if (data.authorized) {
+                    return true; // Authorized
+                } else {
+                    return false; // Not authorized
+                }
+            }
+            return false;
+        } catch (error) {
+            console.error('Auth check error:', error);
+            return false;
+        }
+    };
+
+    const requestAuthorization = async () => {
+        if (!authTarget || !authApproverEmail || !authStartDate || !authEndDate) {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        setAuthSubmitting(true);
+        try {
+            const response = await fetch('http://localhost:3001/api/authorization/request', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${getToken()}`
+                },
+                body: JSON.stringify({
+                    target: authTarget,
+                    approverEmail: authApproverEmail,
+                    startDate: authStartDate,
+                    endDate: authEndDate
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('✅ Authorization request submitted! The domain owner will receive an email for approval.');
+                setShowAuthModal(false);
+                setShowTargetInput(true); // Go back to scan input
+            } else {
+                throw new Error(data.error || 'Failed to submit request');
+            }
+        } catch (error: any) {
+            alert(`Error: ${error.message}`);
+        } finally {
+            setAuthSubmitting(false);
+        }
+    };
+
+    const openAuthModal = (targetUrl: string) => {
+        setAuthTarget(targetUrl);
+        setShowTargetInput(false);
+        setShowAuthModal(true);
     };
 
     const exportJSON = async () => {
@@ -314,7 +395,7 @@ export default function Dashboard() {
             const url = URL.createObjectURL(blob);
             const link = document.createElement('a');
             link.href = url;
-            link.download = `aegis-scan-${Date.now()}.json`;
+            link.download = `singhal-ai-scan-${Date.now()}.json`;
             link.click();
             URL.revokeObjectURL(url);
         } catch (error) {
@@ -376,26 +457,13 @@ export default function Dashboard() {
                                 <div className={styles.warningBox}>
                                     ⚠️ <strong>AUTHORIZATION REQUIRED:</strong> Only scan targets you have explicit permission to test.
                                 </div>
-                                <div className={styles.headerActions}>
+                                <div style={{ marginTop: '10px', textAlign: 'center' }}>
                                     <button
-                                        className={`${styles.btnAction} ${styles.btnReset}`}
-                                        onClick={handleReset}
-                                        title="Reset all data"
+                                        className={styles.btnSecondary}
+                                        onClick={() => openAuthModal(target)}
+                                        style={{ fontSize: '0.8rem', padding: '5px 10px' }}
                                     >
-                                        🔄 RESET
-                                    </button>
-                                    <button
-                                        className={styles.btnDownload}
-                                        onClick={downloadPDF}
-                                    >
-                                        ⬇ DOWNLOAD PDF
-                                    </button>
-                                    <button
-                                        className={`${styles.btnAction} ${killSwitchActive ? styles.btnKillActive : styles.btnKill}`}
-                                        onClick={handleKillSwitch}
-                                        disabled={killSwitchActive}
-                                    >
-                                        {killSwitchActive ? '🔴 TERMINATED' : '⚠️ KILL SWITCH'}
+                                        Request Authorization for this Target
                                     </button>
                                 </div>
                             </div>
@@ -412,6 +480,81 @@ export default function Dashboard() {
                                     disabled={scanning || !target}
                                 >
                                     {scanning ? '⏳ Starting...' : '🚀 START SCAN'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Authorization Request Modal */}
+                {showAuthModal && (
+                    <div className={styles.targetModal}>
+                        <div className={styles.modalContent}>
+                            <div className={styles.modalHeader}>
+                                <h2>🔐 REQUEST AUTHORIZATION</h2>
+                                <button
+                                    className={styles.modalClose}
+                                    onClick={() => setShowAuthModal(false)}
+                                >✕</button>
+                            </div>
+                            <div className={styles.modalBody}>
+                                <p style={{ color: '#aaa', marginBottom: '20px' }}>
+                                    Scanning unauthorized targets is illegal. Submit a request to the domain owner for approval.
+                                </p>
+
+                                <label className={styles.inputLabel}>Target Domain</label>
+                                <input
+                                    type="text"
+                                    className={styles.targetInput}
+                                    value={authTarget}
+                                    onChange={(e) => setAuthTarget(e.target.value)}
+                                    placeholder="example.com"
+                                />
+
+                                <label className={styles.inputLabel} style={{ marginTop: '15px' }}>Approver Email (Domain Owner)</label>
+                                <input
+                                    type="email"
+                                    className={styles.targetInput}
+                                    value={authApproverEmail}
+                                    onChange={(e) => setAuthApproverEmail(e.target.value)}
+                                    placeholder="admin@example.com"
+                                />
+
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px', marginTop: '15px' }}>
+                                    <div>
+                                        <label className={styles.inputLabel}>Start Date</label>
+                                        <input
+                                            type="date"
+                                            className={styles.targetInput}
+                                            value={authStartDate}
+                                            onChange={(e) => setAuthStartDate(e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className={styles.inputLabel}>End Date</label>
+                                        <input
+                                            type="date"
+                                            className={styles.targetInput}
+                                            value={authEndDate}
+                                            onChange={(e) => setAuthEndDate(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div className={styles.modalFooter}>
+                                <button
+                                    className={styles.btnCancel}
+                                    onClick={() => setShowAuthModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    className={styles.btnStart}
+                                    onClick={requestAuthorization}
+                                    disabled={authSubmitting}
+                                >
+                                    {authSubmitting ? '⏳ Sending...' : '📨 SEND REQUEST'}
                                 </button>
                             </div>
                         </div>

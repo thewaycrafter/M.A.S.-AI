@@ -49,12 +49,12 @@ const config: Config = {
     },
     mongodb: {
         uri: process.env.MONGODB_URI || '',
-        database: process.env.MONGODB_DATABASE || 'aegis-ai',
+        database: process.env.MONGODB_DATABASE || 'singhal-ai',
     },
     postgres: {
         host: process.env.POSTGRES_HOST || '',
         port: parseInt(process.env.POSTGRES_PORT || '5432', 10),
-        database: process.env.POSTGRES_DATABASE || 'aegis_audit',
+        database: process.env.POSTGRES_DATABASE || 'singhal_audit',
         user: process.env.POSTGRES_USER || 'postgres',
         password: process.env.POSTGRES_PASSWORD || '',
     },

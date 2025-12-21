@@ -19,7 +19,7 @@ const testEmail = async () => {
         console.log('Sending test email...');
         const result = await sendEmail({
             to: process.env.EMAIL_USER!, // Send to self
-            subject: 'Aegis AI SMTP Test',
+            subject: 'Singhal AI SMTP Test',
             html: '<h1>SMTP Configuration Valid</h1><p>Your email system is working correctly.</p>',
         });
 

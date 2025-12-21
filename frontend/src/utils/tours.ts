@@ -4,7 +4,7 @@ import Joyride, { Step } from 'react-joyride';
 export const freeTour: Step[] = [
     {
         target: 'body',
-        content: 'Welcome to Aegis AI! Let me show you how to get started with security testing.',
+        content: 'Welcome to Singhal AI! Let me show you how to get started with security testing.',
         placement: 'center',
     },
     {
@@ -29,7 +29,7 @@ export const freeTour: Step[] = [
 export const proTour: Step[] = [
     {
         target: 'body',
-        content: 'Welcome to Aegis AI Pro! You now have unlimited access to all features.',
+        content: 'Welcome to Singhal AI Pro! You now have unlimited access to all features.',
         placement: 'center',
     },
     {
@@ -54,7 +54,7 @@ export const proTour: Step[] = [
 export const adminTour: Step[] = [
     {
         target: 'body',
-        content: 'Welcome, Admin! You have complete control over the Aegis AI platform.',
+        content: 'Welcome, Admin! You have complete control over the Singhal AI platform.',
         placement: 'center',
     },
     {

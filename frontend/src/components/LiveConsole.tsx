@@ -59,7 +59,7 @@ export default function LiveConsole() {
                         <div className={styles.cursor}></div>
                         <span>
                             {connected
-                                ? 'Connected to Aegis AI. Waiting for scan to start...'
+                                ? 'Connected to Singhal AI. Waiting for scan to start...'
                                 : 'Connecting to backend...'}
                         </span>
                     </div>
@@ -87,7 +87,7 @@ export default function LiveConsole() {
                     {logs.length} events logged | {connected ? 'Connected' : 'Disconnected'}
                 </span>
                 <span className={styles.footerText}>
-                    Aegis AI v1.0 | Session: {new Date().toLocaleTimeString()}
+                    Singhal AI v1.0 | Session: {new Date().toLocaleTimeString()}
                 </span>
             </div>
         </div>

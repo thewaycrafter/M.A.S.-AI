@@ -11,6 +11,7 @@ const scanHistorySchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true,
+        index: true,
     },
     target: {
         type: String,
@@ -18,35 +19,62 @@ const scanHistorySchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['pending', 'running', 'completed', 'failed'],
+        enum: ['pending', 'running', 'completed', 'failed', 'cancelled'],
         default: 'pending',
     },
-    results: {
-        vulnerabilities: [{
-            title: String,
-            severity: String,
-            category: String,
-            endpoint: String,
-            description: String,
-        }],
-        riskScore: Number,
-        critical: Number,
-        high: Number,
-        medium: Number,
-        low: Number,
+
+    // Timing Information
+    startedAt: {
+        type: Date,
+        default: Date.now,
     },
+    completedAt: Date,
+    duration: {
+        type: Number, // milliseconds
+        default: 0,
+    },
+
+    // Link to detailed results
+    scanResultId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ScanResult',
+    },
+
+    // Quick summary (for list views)
+    summary: {
+        totalVulnerabilities: { type: Number, default: 0 },
+        critical: { type: Number, default: 0 },
+        high: { type: Number, default: 0 },
+        medium: { type: Number, default: 0 },
+        low: { type: Number, default: 0 },
+        riskScore: { type: Number, default: 0 },
+    },
+
+    // Execution metadata
     metadata: {
-        duration: Number, // in seconds
         agentsUsed: [String],
+        phasesCompleted: [String],
         tokensUsed: Number,
         cost: Number, // in INR
     },
-    completedAt: Date,
+
+    // Authorization reference
+    authorizationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Authorization',
+    },
+
+    // Error info if failed
+    errorMessage: String,
+
 }, {
     timestamps: true,
 });
 
-// Index for faster queries
+// Indexes for faster queries
 scanHistorySchema.index({ userId: 1, createdAt: -1 });
+scanHistorySchema.index({ target: 1 });
+scanHistorySchema.index({ status: 1 });
+scanHistorySchema.index({ 'summary.riskScore': -1 });
 
 export const ScanHistory = mongoose.model('ScanHistory', scanHistorySchema);

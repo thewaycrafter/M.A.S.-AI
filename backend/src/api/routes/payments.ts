@@ -117,10 +117,8 @@ router.post('/verify-payment', requireAuth, async (req: AuthRequest, res) => {
             razorpayCustomerId: undefined // Add required property
         };
 
-        // Upgrade role for pro users
-        if (payment.subscription.tier === 'pro') {
-            user.role = 'pro';
-        }
+        // Role is separate from subscription tier - tier determines features
+        // Role only accepts 'user' or 'admin', subscription tier handles 'pro'/'free'/'enterprise'
 
         await user.save();
 

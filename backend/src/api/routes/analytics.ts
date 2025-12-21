@@ -15,11 +15,12 @@ router.get('/lifetime', requireAuth, async (req: AuthRequest, res) => {
         let timeSaved = 0; // in hours
 
         scans.forEach(scan => {
-            if (scan.results) {
-                vulnerabilitiesFound += (scan.results.critical || 0) +
-                    (scan.results.high || 0) +
-                    (scan.results.medium || 0) +
-                    (scan.results.low || 0);
+            const summary = (scan as any).summary;
+            if (summary) {
+                vulnerabilitiesFound += (summary.critical || 0) +
+                    (summary.high || 0) +
+                    (summary.medium || 0) +
+                    (summary.low || 0);
             }
 
             // Estimate cost saved: ₹5000 per scan (avg pestest cost) + ₹1000 per vuln
@@ -82,11 +83,12 @@ router.get('/breakdown', requireAuth, async (req: AuthRequest, res) => {
         };
 
         scans.forEach(scan => {
-            if (scan.results) {
-                breakdown.critical += scan.results.critical || 0;
-                breakdown.high += scan.results.high || 0;
-                breakdown.medium += scan.results.medium || 0;
-                breakdown.low += scan.results.low || 0;
+            const summary = (scan as any).summary;
+            if (summary) {
+                breakdown.critical += summary.critical || 0;
+                breakdown.high += summary.high || 0;
+                breakdown.medium += summary.medium || 0;
+                breakdown.low += summary.low || 0;
             }
         });
 

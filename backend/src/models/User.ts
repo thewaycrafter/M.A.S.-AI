@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
 
 const userSchema = new mongoose.Schema({
+    // =====================
+    // Personal Information
+    // =====================
     username: {
         type: String,
         required: true,
@@ -21,11 +25,50 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 8,
     },
+    firstName: {
+        type: String,
+        trim: true,
+    },
+    lastName: {
+        type: String,
+        trim: true,
+    },
+    phone: {
+        type: String,
+        trim: true,
+    },
+    company: {
+        type: String,
+        trim: true,
+    },
+    avatar: {
+        type: String, // URL or base64
+    },
+
+    // =====================
+    // Role & Permissions
+    // =====================
     role: {
         type: String,
-        enum: ['free', 'pro', 'admin'],
-        default: 'free',
+        enum: ['user', 'admin'],
+        default: 'user',
     },
+    isBlocked: {
+        type: Boolean,
+        default: false,
+    },
+    blockedAt: Date,
+    blockedReason: String,
+
+    // =====================
+    // Password Reset
+    // =====================
+    passwordResetToken: String,
+    passwordResetExpires: Date,
+
+    // =====================
+    // Subscription Details
+    // =====================
     subscription: {
         tier: {
             type: String,
@@ -41,7 +84,12 @@ const userSchema = new mongoose.Schema({
         endDate: Date,
         razorpaySubscriptionId: String,
         razorpayCustomerId: String,
+        razorpayPaymentId: String,
     },
+
+    // =====================
+    // Usage Tracking
+    // =====================
     usage: {
         scansThisMonth: {
             type: Number,
@@ -52,13 +100,15 @@ const userSchema = new mongoose.Schema({
             default: 0,
         },
         lastScanDate: Date,
+        pdfDownloadsThisMonth: {
+            type: Number,
+            default: 0,
+        },
     },
-    profile: {
-        firstName: String,
-        lastName: String,
-        company: String,
-        phone: String,
-    },
+
+    // =====================
+    // Onboarding & Settings
+    // =====================
     onboarding: {
         tourCompleted: {
             type: Boolean,
@@ -66,33 +116,100 @@ const userSchema = new mongoose.Schema({
         },
         completedSteps: [String],
     },
+
+    // =====================
+    // Activity Tracking
+    // =====================
+    lastLoginAt: Date,
+    lastActivityAt: Date,
+    loginCount: {
+        type: Number,
+        default: 0,
+    },
+
 }, {
     timestamps: true,
 });
 
-// Hash password before saving
+// =====================
+// Indexes
+// =====================
+userSchema.index({ email: 1 });
+userSchema.index({ username: 1 });
+userSchema.index({ 'subscription.tier': 1 });
+userSchema.index({ role: 1 });
+userSchema.index({ isBlocked: 1 });
+
+// =====================
+// Pre-save Middleware
+// =====================
 userSchema.pre('save', async function () {
     if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 10);
     }
 });
 
-// Compare password method
+// =====================
+// Instance Methods
+// =====================
 userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
     return bcrypt.compare(candidatePassword, this.password);
 };
 
-// Reset monthly usage (call this via cron job)
 userSchema.methods.resetMonthlyUsage = function () {
     this.usage.scansThisMonth = 0;
+    this.usage.pdfDownloadsThisMonth = 0;
     return this.save();
 };
 
-// Check if user can scan
-userSchema.methods.canScan = function (): boolean {
-    if (this.role === 'admin' || this.role === 'pro') return true;
-    if (this.subscription.tier === 'free' && this.usage.scansThisMonth < 3) return true;
-    return false;
+userSchema.methods.canScan = function (): { allowed: boolean; reason?: string } {
+    if (this.isBlocked) {
+        return { allowed: false, reason: 'Your account is blocked. Contact support.' };
+    }
+
+    if (this.role === 'admin') {
+        return { allowed: true };
+    }
+
+    const tierLimits: Record<string, number> = {
+        free: 3,
+        pro: Infinity,
+        enterprise: Infinity,
+    };
+
+    const limit = tierLimits[this.subscription?.tier || 'free'];
+
+    if (this.usage.scansThisMonth >= limit) {
+        return {
+            allowed: false,
+            reason: `You have reached your ${this.subscription?.tier || 'free'} plan limit of ${limit} scans/month. Upgrade to continue.`
+        };
+    }
+
+    return { allowed: true };
+};
+
+userSchema.methods.generatePasswordResetToken = function (): string {
+    const token = crypto.randomBytes(32).toString('hex');
+    this.passwordResetToken = crypto.createHash('sha256').update(token).digest('hex');
+    this.passwordResetExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+    return token;
+};
+
+userSchema.methods.clearPasswordResetToken = function () {
+    this.passwordResetToken = undefined;
+    this.passwordResetExpires = undefined;
+};
+
+// =====================
+// Static Methods
+// =====================
+userSchema.statics.findByResetToken = async function (token: string) {
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    return this.findOne({
+        passwordResetToken: hashedToken,
+        passwordResetExpires: { $gt: Date.now() },
+    });
 };
 
 export const User = mongoose.model('User', userSchema);

@@ -20,6 +20,7 @@ import {
     initializeAuditTables,
     closeDatabaseConnections
 } from './services/database';
+import { requestLogger, logSystem } from './middleware/requestLogger';
 
 const app: Application = express();
 const httpServer = createServer(app);
@@ -43,15 +44,15 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Root endpoint
 app.get('/', (req: Request, res: Response) => {
     res.json({
-        name: 'Aegis AI API',
+        name: 'Singhal AI API',
         version: '1.0.0',
         status: 'online',
         tagline: 'Defensive-First AI Penetration Testing Engine',
-        message: 'Welcome to Aegis AI. Use /api for endpoints, /health for status.',
+        message: 'Welcome to Singhal AI. Use /api for endpoints, /health for status.',
         ascii: `
 ╔═══════════════════════════════════════════════════════════╗
-║                      AEGIS AI                             ║
-║       Defensive-First AI Penetration Testing Engine      ║
+║                     SINGHAL AI                            ║
+║       Defensive-First AI Penetration Testing Engine       ║
 ╚═══════════════════════════════════════════════════════════╝
     `,
         endpoints: {
@@ -86,7 +87,7 @@ app.get('/health', (req: Request, res: Response) => {
 // API status endpoint
 app.get('/api/status', (req: Request, res: Response) => {
     res.json({
-        name: 'Aegis AI API',
+        name: 'Singhal AI API',
         version: '1.0.0',
         description: 'Defensive-First AI Penetration Testing Engine',
         status: 'operational',
@@ -104,6 +105,9 @@ app.get('/api/status', (req: Request, res: Response) => {
     });
 });
 
+// Request logging middleware (logs all API requests to MongoDB applogs)
+app.use('/api', requestLogger);
+
 // API routes
 app.use('/api/auth', authRouter);
 app.use('/api/scans', scansRouter);
@@ -119,7 +123,7 @@ app.use('/api/admin', adminRouter);
 // API documentation endpoint
 app.get('/api', (req: Request, res: Response) => {
     res.json({
-        message: 'Aegis AI API v1.0.0',
+        message: 'Singhal AI API v1.0.0',
         endpoints: {
             health: '/health',
             status: '/api/status',
@@ -210,8 +214,8 @@ async function startServer() {
             console.log(`
 ╔═══════════════════════════════════════════════════════════╗
 ║                                                           ║
-║                      AEGIS AI                             ║
-║       Defensive-First AI Penetration Testing Engine      ║
+║                     SINGHAL AI                            ║
+║       Defensive-First AI Penetration Testing Engine       ║
 ║                                                           ║
 ╚═══════════════════════════════════════════════════════════╝
 

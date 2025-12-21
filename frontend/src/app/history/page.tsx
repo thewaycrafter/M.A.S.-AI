@@ -119,26 +119,26 @@ export default function HistoryPage() {
                                 <div className={styles.metrics}>
                                     <div className={styles.metric}>
                                         <span className={styles.label}>Risk Score</span>
-                                        <span className={styles.value} style={{ color: getSeverityColor(scan.results.riskScore > 7 ? 'critical' : scan.results.riskScore > 5 ? 'high' : 'medium') }}>
-                                            {scan.results.riskScore.toFixed(1)}/10
+                                        <span className={styles.value} style={{ color: getSeverityColor((scan.results?.riskScore || 0) > 7 ? 'critical' : (scan.results?.riskScore || 0) > 5 ? 'high' : 'medium') }}>
+                                            {(scan.results?.riskScore || 0).toFixed(1)}/10
                                         </span>
                                     </div>
                                     <div className={styles.metric}>
                                         <span className={styles.label}>Critical</span>
                                         <span className={styles.value} style={{ color: '#ff0040' }}>
-                                            {scan.results.critical}
+                                            {scan.results?.critical || 0}
                                         </span>
                                     </div>
                                     <div className={styles.metric}>
                                         <span className={styles.label}>High</span>
                                         <span className={styles.value} style={{ color: '#ff6b00' }}>
-                                            {scan.results.high}
+                                            {scan.results?.high || 0}
                                         </span>
                                     </div>
                                     <div className={styles.metric}>
                                         <span className={styles.label}>Medium</span>
                                         <span className={styles.value} style={{ color: '#ffa500' }}>
-                                            {scan.results.medium}
+                                            {scan.results?.medium || 0}
                                         </span>
                                     </div>
                                 </div>

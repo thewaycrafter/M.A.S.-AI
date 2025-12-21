@@ -7,10 +7,7 @@ import { ScanHistory } from '../../models/ScanHistory';
 
 const router: Router = express.Router();
 
-/**
- * POST /api/scans/start
- * Start a new security scan (REQUIRES AUTH + USAGE LIMIT CHECK)
- */
+// Start a new scan
 router.post('/start', requireAuth, checkUsageLimit, async (req: AuthRequest, res: Response) => {
     try {
         const { target } = req.body;
@@ -32,6 +29,24 @@ router.post('/start', requireAuth, checkUsageLimit, async (req: AuthRequest, res
         } catch (e) { }
 
         console.log(`🎯 Initiating scan on ${cleanTarget} by user ${req.user?.username}`);
+
+        // Authorization Check
+        // Admins bypass this check
+        if (req.user?.role !== 'admin') {
+            const { Authorization } = await import('../../models/Authorization');
+
+            // Cast to any to access static method
+            const isAuthorized = await (Authorization as any).isTargetAuthorized(req.user!.id, cleanTarget);
+
+            if (!isAuthorized) {
+                console.warn(`⛔ blocked unauthorized scan attempt on ${cleanTarget} by ${req.user?.username}`);
+                return res.status(403).json({
+                    error: 'Authorization Required',
+                    message: `You do not have an active authorization to scan ${cleanTarget}. Please request authorization first.`,
+                    requiresAuthorization: true
+                });
+            }
+        }
 
         // Clear previous logs
         orchestrator.clearAllLogs();

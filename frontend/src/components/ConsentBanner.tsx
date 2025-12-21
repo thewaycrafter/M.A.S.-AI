@@ -13,7 +13,7 @@ export default function ConsentBanner({ onAccept }: ConsentBannerProps) {
 
     useEffect(() => {
         // Check if user has already consented
-        const hasConsented = localStorage.getItem('aegis_consent');
+        const hasConsented = localStorage.getItem('singhal_consent');
         if (!hasConsented) {
             setShowBanner(true);
         }
@@ -25,7 +25,7 @@ export default function ConsentBanner({ onAccept }: ConsentBannerProps) {
             version: '1.0',
             accepted: true,
         };
-        localStorage.setItem('aegis_consent', JSON.stringify(consentData));
+        localStorage.setItem('singhal_consent', JSON.stringify(consentData));
         setShowBanner(false);
         onAccept?.();
     };
@@ -43,7 +43,7 @@ export default function ConsentBanner({ onAccept }: ConsentBannerProps) {
                     <div className={styles.text}>
                         <h3>⚠️ Authorized Use Only</h3>
                         <p>
-                            By using Aegis AI, you agree to conduct security testing ONLY on systems you own or have explicit permission to test.
+                            By using Singhal AI, you agree to conduct security testing ONLY on systems you own or have explicit permission to test.
                             Unauthorized penetration testing is illegal.
                         </p>
                     </div>
