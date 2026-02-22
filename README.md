@@ -103,7 +103,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/singhalmridul/masai.git
+git clone https://github.com/theWayCrafter/masai.git
 cd masai
 
 # Install dependencies
@@ -314,7 +314,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Mridul Singhal**
 
-- GitHub: [@singhalmridul](https://github.com/singhalmridul)
+- GitHub: [@theWayCrafter](https://github.com/theWayCrafter)
 - Email: mridulsinghal11@gmail.com
 
 ---
@@ -324,8 +324,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### ⭐ Star this repo if you find it useful!
 
 <p>
-  <img src="https://img.shields.io/github/stars/singhalmridul/masai?style=social" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/singhalmridul/masai?style=social" alt="Forks"/>
+  <img src="https://img.shields.io/github/stars/theWayCrafter/masai?style=social" alt="Stars"/>
+  <img src="https://img.shields.io/github/forks/theWayCrafter/masai?style=social" alt="Forks"/>
 </p>
 
 **Built with ❤️ for the security community**

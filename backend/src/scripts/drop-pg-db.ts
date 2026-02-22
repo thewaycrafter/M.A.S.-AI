@@ -10,7 +10,7 @@ const dropPostgresDb = async () => {
     const client = new Client({
         host: process.env.POSTGRES_HOST || 'localhost',
         port: parseInt(process.env.POSTGRES_PORT || '5432'),
-        user: process.env.POSTGRES_USER || 'singhalmridul',
+        user: process.env.POSTGRES_USER || 'theWayCrafter',
         password: process.env.POSTGRES_PASSWORD,
         database: 'postgres', // Connect to default DB to drop others
     });
