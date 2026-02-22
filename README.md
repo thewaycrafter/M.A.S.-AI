@@ -323,8 +323,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### ⭐ Star this repo if you find it useful!
 
 <p>
-  <img src="https://img.shields.io/github/stars/theWayCrafter/masai?style=social" alt="Stars"/>
-  <img src="https://img.shields.io/github/forks/theWayCrafter/masai?style=social" alt="Forks"/>
+  <img src="https://img.shields.io/github/stars/thewaycrafter/M.A.S.-AI?style=social" alt="Stars"/>
+  <img src="https://img.shields.io/github/forks/thewaycrafter/M.A.S.-AI?style=social" alt="Forks"/>
 </p>
 
 **Built with ❤️ for the security community**
