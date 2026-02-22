@@ -15,7 +15,7 @@
     "ai",
     "vulnerability-scanning"
   ],
-  "author": "M.A.S. AI",
+  "author": "theWayCrafter",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
