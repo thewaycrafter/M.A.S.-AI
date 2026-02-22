@@ -6,8 +6,8 @@
 import { sendEmail } from './services/email';
 import { emailTemplates } from './services/emailTemplates';
 
-const TEST_EMAIL = 'themridulsinghal@gmail.com';
-const SAMPLE_USERNAME = 'Mridul';
+const TEST_EMAIL = 'test@example.com';
+const SAMPLE_USERNAME = 'theWayCrafter';
 const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 async function sendAllSampleEmails() {
@@ -75,7 +75,7 @@ async function sendAllSampleEmails() {
         await sendEmail({
             to: TEST_EMAIL,
             subject: '[M.A.S. AI] Security Testing Authorization Request',
-            html: emailTemplates.authorizationRequest(SAMPLE_USERNAME, 'mridul@example.com', 'example.com', approvalUrl)
+            html: emailTemplates.authorizationRequest(SAMPLE_USERNAME, 'test@example.com', 'example.com', approvalUrl)
         });
         console.log('   ✅ Authorization request email sent!');
 
